@@ -1,0 +1,16 @@
+{% extends 'store/base.html' %}
+
+{% block title%}{{ category_name }}{% endblock%}
+
+{% block body %}
+<div class="container">
+  <ul>
+      {% for product in product_list %}
+        <li>
+            <h2>{{ product.name }}</h2>
+            <img src="{{ product.image.url}}" align="center"/>
+        </li>
+      {% endfor %}
+  </ul>
+</div>
+{% endblock %}
