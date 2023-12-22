@@ -31,3 +31,6 @@ class ProductAttrs(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE)
     value = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.attribute.name + " = " + self.value
