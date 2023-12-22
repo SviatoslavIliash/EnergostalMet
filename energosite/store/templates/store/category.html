@@ -7,8 +7,10 @@
   <ul>
       {% for product in product_list %}
         <li>
-            <h2>{{ product.name }}</h2>
+            <h2><a href="{% url 'store:product_detail' product.id %}">{{ product.name }}</a></h2>
+            <!--<h2><a href="store/{{ product.id }}/product">{{ product.name }}</a></h2>-->
             <img src="{{ product.image.url}}" align="center"/>
+            <h3>{{ product.price }} грн</h3>
         </li>
       {% endfor %}
   </ul>
