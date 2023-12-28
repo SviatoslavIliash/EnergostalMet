@@ -35,7 +35,7 @@ def category_detail(request, category_name):
     return render(request, "store/category.html", context)
 
 
-def product_detail(request, product_id):
+def product_detail(request, category_name, product_id):
     product = Product.objects.get(pk=product_id)
     attributes = ProductAttrs.objects.filter(product=product)
     context = {"product": product, "attrs": attributes}

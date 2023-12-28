@@ -1,6 +1,12 @@
 {% extends 'store/base.html' %}
 
 {% block title%}{{ product.name }}{% endblock%}
+
+{% block breadcrumbs %}
+  &rsaquo; <a href="{% url 'store:category_detail' product.category.name %}">{{ product.category.name }}</a>
+  &rsaquo; <a href="{% url 'store:product_detail' product.category.name product.pk %}">{{ product.name }}</a>
+{% endblock %}
+
 {% block body %}
 <div class="container">
   <h2>{{ product.name }}</h2>
