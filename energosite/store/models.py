@@ -35,3 +35,15 @@ class ProductAttrs(models.Model):
 
     def __str__(self):
         return self.attribute.name + " = " + self.value
+
+
+class Article(models.Model):
+    name = models.CharField(max_length=30)
+    text = models.TextField()
+    in_top_navbar = models.BooleanField(default=False)
+    in_footer = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name
+
+

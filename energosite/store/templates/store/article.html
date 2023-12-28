@@ -1,0 +1,10 @@
+{% extends 'store/base.html' %}
+
+{% block title%}{{ article.name }}{% endblock %}
+
+{% block body %}
+<div class="container">
+  <p>{{ current_article.name }}</p>
+  <p>{{ current_article.text }}</p>
+</div>
+{% endblock %}

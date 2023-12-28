@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Product, Attribute, ProductAttrs
+from .models import Category, Product, Attribute, ProductAttrs, Article
 # Register your models here.
 
 class ProductAttrsInline(admin.TabularInline):
@@ -14,4 +14,5 @@ class ProductAdmin(admin.ModelAdmin):
 admin.site.register(Category)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Attribute)
+admin.site.register(Article)
 
