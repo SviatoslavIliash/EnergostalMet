@@ -10,7 +10,7 @@
 {% block body %}
 <div class="container">
   <h2>{{ product.name }}</h2>
-  <img src="{{ product.image.url}}" align="left"/>
+  <img src="{{ product.get_image}}" align="left"/>
   <h2>{{ product.price }} грн</h2>
   <ul>
       {% for attr in attrs %}

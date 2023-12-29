@@ -1,4 +1,5 @@
 {% extends 'store/base.html' %}
+{% load static %}
 
 {% block title%}Home page{% endblock%}
 
@@ -17,29 +18,20 @@
     {% for category_row in category_chunks%}
     <div class="row">
       {% for category in category_row %}
-      <div class="col-md-12 col-lg-4 mb-4 mb-lg-0">
+      <div class="col-md-12 col-lg-4 mb-4 mb-lg-2">
+        <a href="{% url 'store:category_detail' category.name %}">
         <div class="card">
-          <!--<div class="d-flex justify-content-between p-3">
-            <p class="lead mb-0">Today's Combo Offer</p>
-            <div
-              class="bg-info rounded-circle d-flex align-items-center justify-content-center shadow-1-strong"
-              style="width: 35px; height: 35px;">
-              <p class="text-white mb-0 small">x4</p>
-            </div>
-          </div>-->
-          <img src="{{ category.image.url}}"
-            class="card-img-top" alt="{{category.name}}" />
+          <div class="ratio ratio-4x3" style="object-fit: contain;">
+              <img src="{{ category.get_image}}"
+                class="card-img-top" alt="{{category.name}}" style="object-fit: contain;" />
+          </div>
           <div class="card-body">
-            <!--<div class="d-flex justify-content-between">
-              <p class="small"><a href="#!" class="text-muted">Laptops</a></p>
-              <p class="small text-danger"><s>$1099</s></p>
-            </div>-->
-
             <div class="d-flex justify-content-between mb-3">
-              <h5 class="mb-0"><a href="{% url 'store:category_detail' category.name %}">{{ category.name }}</a></h5>
+              <h5 class="mb-0">{{ category.name }}</h5>
             </div>
           </div>
         </div>
+        </a>
       </div>
       {% endfor %}
     </div>
