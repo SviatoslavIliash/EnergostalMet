@@ -6,46 +6,123 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <!--  <link rel="stylesheet" href="/static/css/main.css">-->
     <title>{% block title%}{% endblock%}</title>
+    <!-- style tag should be moved to separate .css file -->
+    <style>
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            padding: 60px 0 0; /* Height of navbar */
+            box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+            width: 240px;
+            z-index: 600;
+        }
+
+        @media (min-width: 991.98px) {
+        main {
+            padding-left: 240px;
+
+        }
+        }
+
+        .sidebar-sticky {
+            position: relative;
+            top: 0;
+            height: calc(100vh - 48px);
+            padding-top: 0.5rem;
+            overflow-x: hidden;
+            overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+        }
+
+        @media (max-width: 991.98px) {
+        .main {
+        width: 100%;
+        }
+        }
+
+    </style>
 </head>
 <body class="d-flex h-100 text-center text-bg-white">
 
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
   <header class="mb-auto">
-    <!--<div>-->
-      <!--<h3 class="float-md-start mb-0"></h3>-->
-      <nav class="navbar navbar-expand-sm bg-light fixed-top">
-          <div class="container-fluid">
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
-                  <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="navbar-collapse collapse justify-content-end" id="collapsibleNavbar">
-                  <ul class="nav navbar-nav">
-                      <li class="nav-item"><a class="nav-link fw-bold py-1 px-2 active" aria-current="page" href="{% url 'store:index' %}">Головна</a></li>
+  <!-- Sidebar -->
+  <nav id="sidebarMenu" class="collapse d-lg-block sidebar bg-white overflow-auto">
+    <div class="position-sticky">
+      <div class="list-group list-group-flush mx-3 mt-4">
+          {% for category in categories %}
+            <a href="{% url 'store:category_detail' category.name %}" class="list-group-item list-group-item-action py-2 ripple" aria-current="true">
+                <span>{{ category.name }}</span>
+            </a>
+          {% endfor %}
+      </div>
+    </div>
+  </nav>
+  <!-- Sidebar -->
 
-                      {% for article in top_articles %}
-                      <li class="nav_item"><a class="nav-link fw-bold py-1 px-2" href="{% url 'store:article' article.name %}">{{ article.name }}</a></li>
-                      {% endfor %}
+  <!-- Navbar -->
+  <nav id="main-navbar" class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+    <!-- Container wrapper -->
+    <div class="container-fluid">
+      <!-- Toggle button -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu"
+        aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-                      <li class="nav-item"><a class="nav-link fw-bold py-1 px-2" href="{% url 'store:cart' %}">Кошик</a></li>
-                  </ul>
-              </div>
-          </div>
-      </nav>
-  <!--  </div>-->
+      <!-- Brand
+      <a class="navbar-brand" href="#">
+        <img src="https://mdbcdn.b-cdn.net/img/logo/mdb-transaprent-noshadows.webp" height="25" alt="MDB Logo"
+          loading="lazy" />
+      </a>-->
+      <!-- Search form
+      <form class="d-none d-md-flex input-group w-auto my-auto">
+        <input autocomplete="off" type="search" class="form-control rounded"
+          placeholder='Search (ctrl + "/" to focus)' style="min-width: 225px;" />
+        <span class="input-group-text border-0"><i class="fas fa-search"></i></span>
+      </form>-->
+
+      <!-- Right links -->
+      <ul class="navbar-nav ms-auto d-flex flex-row">
+          <li class="nav-item">
+              <a class="nav-link fw-bold py-1 px-2 active" aria-current="page" href="{% url 'store:index' %}">
+                  <i class="fas fa-lock fa-fw me-3"></i><span>Головна</span></a>
+          </li>
+
+          {% for article in top_articles %}
+            <li class="nav_item">
+                <a class="nav-link fw-bold py-1 px-2" href="{% url 'store:article' article.name %}">
+                    <i class="fas fa-lock fa-fw me-3"></i><span>{{ article.name }}</span></a>
+            </li>
+          {% endfor %}
+
+          <li class="nav-item">
+              <a class="nav-link fw-bold py-1 px-2" href="{% url 'store:cart' %}">
+                   <i class="fas fa-lock fa-fw me-3"></i><span>Кошик</span></a>
+          </li>
+      </ul>
+    </div>
+    <!-- Container wrapper -->
+  </nav>
+  <!-- Navbar -->
   </header>
 
-  <main class="px-3 overflow-auto" style="margin-top:50px; margin-bottom:70px;">
-      {% block nav-breadcrumbs %}
-        <nav aria-label="Breadcrumbs">
-            <div class="breadcrumbs">
+  <main class="overflow-auto" style="margin-top: 58px; margin-bottom:70px;">
+    <div class="container pt-4">
+        {% block nav-breadcrumbs %}
+            <nav aria-label="Breadcrumbs">
+                <div class="breadcrumbs">
                 <a href="{% url 'store:index' %}">Home</a>
-                {% block breadcrumbs %}
-                {% endblock %}
-            </div>
-        </nav>
-      {% endblock %}
-      {% block body %}
-      {% endblock %}
+                {% block breadcrumbs %} {% endblock %}
+                </div>
+            </nav>
+        {% endblock %}
+
+        {% block body %}
+        {% endblock %}
+    </div>
   </main>
 
   <!--<footer class="mt-auto text-secondary-50 fixed-bottom">-->
@@ -56,6 +133,5 @@
       </div>
   </footer>
 </div>
-
 </body>
 </html>

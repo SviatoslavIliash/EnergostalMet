@@ -1,4 +1,4 @@
-from .models import Article
+from .models import Article, Category
 
 
 def articles_processor(request):
@@ -13,3 +13,8 @@ def articles_processor(request):
             footer_articles.append(article)
 
     return {"top_articles": top_articles, "footer_articles": footer_articles}
+
+
+def categories_processor(request):
+    categories = Category.objects.all()
+    return {"categories": categories}
