@@ -9,6 +9,8 @@ class ProductAdmin(admin.ModelAdmin):
     inlines = [
         ProductAttrsInline,
     ]
+    list_filter = ["category"]
+    search_fields = ["name", "category__name"]
 
 
 admin.site.register(Category)
