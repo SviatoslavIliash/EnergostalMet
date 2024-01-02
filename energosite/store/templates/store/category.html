@@ -19,7 +19,7 @@
       <div class="row">
         {% for product in product_row %}
           <div class="col-md-12 col-lg-4 mb-4 mb-lg-0">
-            <a href="{% url 'store:product_detail' category_name product.id %}">
+            <a href="{% url 'store:product_detail' category.name product.id %}">
             <div class="card">
               <div class="d-flex justify-content-between p-3">
               </div>
