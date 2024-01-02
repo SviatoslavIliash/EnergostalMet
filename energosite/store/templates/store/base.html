@@ -14,7 +14,7 @@
             top: 0;
             bottom: 0;
             left: 0;
-            padding: 60px 0 0; /* Height of navbar */
+            padding: 48px 0 0; /* Height of navbar */
             box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
             width: 240px;
             z-index: 600;
@@ -24,6 +24,9 @@
         main {
             padding-left: 240px;
 
+        }
+        footer{
+            padding-left: 240px;
         }
         }
 
@@ -38,13 +41,17 @@
 
         @media (max-width: 991.98px) {
         .main {
-        width: 100%;
+            width: 100%;
+        }
+        footer{
+            width: 100%;
         }
         }
 
     </style>
 </head>
-<body class="d-flex h-100 text-center text-bg-white">
+<!--<body class="<d-flex h-100 text-center text-bg-white flex-column" style="min-height: 100vh; justify-content: space-between;">-->
+<body class="text-center text-bg-white" style="height:100%; min-height: 100vh; justify-content: space-between; display:flex; flex-direction: column;">
 
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
   <header class="mb-auto">
@@ -53,9 +60,28 @@
     <div class="position-sticky">
       <div class="list-group list-group-flush mx-3 mt-4">
           {% for category in categories %}
-            <a href="{% url 'store:category_detail' category.name %}" class="list-group-item list-group-item-action py-2 ripple" aria-current="true">
-                <span>{{ category.name }}</span>
-            </a>
+          {% if category.is_super_category %}
+            {% if category.children.all %}
+                <div class="dropdown list-group-item list-group-item-action py-2 ripple"  aria-current="true">
+                <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown"
+                        style="background-color: transparent; border: none;">
+                    {{ category.name }}
+                </button>
+                <ul class="dropdown-menu">
+                    {% for child in category.children.all %}
+                        <li><a href="{% url 'store:category_detail' child.name %}" class="dropdown-item">{{ child.name }}</a></li>
+                        {% if not forloop.last %}
+                            <li><hr class="dropdown-divider"/></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+                </div>
+            {% else %}
+                <a href="{% url 'store:category_detail' category.name %}" class="list-group-item list-group-item-action py-2 ripple" aria-current="true">
+                    <span>{{ category.name }}</span>
+                </a>
+            {% endif %}
+          {% endif %}
           {% endfor %}
       </div>
     </div>
@@ -109,7 +135,7 @@
   <!-- Navbar -->
   </header>
 
-  <main class="overflow-auto" style="margin-top: 58px; margin-bottom:70px;">
+  <main class="overflow-auto" style="margin-top: 58px;">
     <div class="container pt-4">
         {% block nav-breadcrumbs %}
             <nav aria-label="Breadcrumbs">
@@ -125,13 +151,13 @@
     </div>
   </main>
 
+</div>
   <!--<footer class="mt-auto text-secondary-50 fixed-bottom">-->
-  <footer class="fixed-bottom" >
+  <footer class="bg-secondary">
       <div class="container">
         <p>Contact Us: energo-met@gmail.com</p>
         <p>Copyright by Iliash LTD 2000-2024</p>
       </div>
   </footer>
-</div>
 </body>
 </html>

@@ -13,8 +13,8 @@ def get_image_impl(obj):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=30)
-    parent = models.ForeignKey("self", null=True, blank=True, on_delete=models.CASCADE)
+    name = models.CharField(max_length=30, unique=True)
+    parent = models.ForeignKey("self", related_name='children', null=True, blank=True, on_delete=models.CASCADE)
     description = models.CharField(max_length=250, default='', blank=True)
     image = models.ImageField(upload_to='images/', null=True, blank=True)
 
@@ -23,6 +23,18 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+    def is_super_category(self):
+        return self.parent is None
+
+
+    def parents(self):
+        res = []
+        while self.parent:
+            res.append(self.parent)
+            self = self.parent
+        res.reverse()
+        return res
 
 
 class Product(models.Model):

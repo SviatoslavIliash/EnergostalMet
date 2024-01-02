@@ -4,29 +4,5 @@
 {% block title%}Home page{% endblock%}
 
 {% block body %}
-<section style="background-color: #eee;">
-  <div class="container py-5">
-    {% for category_row in category_chunks%}
-    <div class="row">
-      {% for category in category_row %}
-      <div class="col-md-12 col-lg-4 mb-4 mb-lg-2">
-        <a href="{% url 'store:category_detail' category.name %}">
-        <div class="card">
-          <div class="ratio ratio-4x3" style="object-fit: contain;">
-              <img src="{{ category.get_image}}"
-                class="card-img-top" alt="{{category.name}}" style="object-fit: contain;" />
-          </div>
-          <div class="card-body">
-            <div class="d-flex justify-content-between mb-3">
-              <h5 class="mb-0">{{ category.name }}</h5>
-            </div>
-          </div>
-        </div>
-        </a>
-      </div>
-      {% endfor %}
-    </div>
-  {% endfor %}
-  </div>
-</section>
+{% include 'store/show_categories.html' %}
 {% endblock %}

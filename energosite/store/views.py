@@ -2,11 +2,14 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from .models import Category, Product, ProductAttrs, Article
 
+categories_per_row = 3
+
 
 def index(request):
     category_list = Category.objects.all()
-    categories_per_row = 3
-    category_chunks = [category_list[x:x + categories_per_row] for x in range(0, len(category_list), categories_per_row)]
+    super_category_list = list(filter(lambda c: c.is_super_category(), category_list))
+    category_chunks = [super_category_list[x:x + categories_per_row]
+                       for x in range(0, len(super_category_list), categories_per_row)]
     context = {"category_chunks": category_chunks}
     return render(request, "store/index.html", context)
 
@@ -28,10 +31,18 @@ def cart(request):
 
 
 def category_detail(request, category_name):
-    product_list = Product.objects.filter(category__name=category_name)
-    products_per_row = 3
-    product_chunks = [product_list[x:x + products_per_row] for x in range(0, len(product_list), products_per_row)]
-    context = {"product_chunks": product_chunks, "category_name": category_name}
+    product_chunks = []
+    category_chunks = []
+    category = Category.objects.filter(name=category_name).first()
+    children = category.children.all()
+    if children:
+        category_chunks = [children[x:x+categories_per_row] for x in range(0, len(children), categories_per_row)]
+    else:
+        product_list = Product.objects.filter(category__name=category_name)
+        products_per_row = 3
+        product_chunks = [product_list[x:x + products_per_row] for x in range(0, len(product_list), products_per_row)]
+    context = {"product_chunks": product_chunks, "category": category,
+               "category_chunks": category_chunks}
     return render(request, "store/category.html", context)
 
 
