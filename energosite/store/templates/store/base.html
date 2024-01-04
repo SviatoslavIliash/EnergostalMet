@@ -1,5 +1,6 @@
-{% load static %}
 <!doctype html>
+{% load static %}
+{% load categoriestags %}
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
@@ -58,36 +59,7 @@
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
   <header class="mb-auto">
   <!-- Sidebar -->
-  <nav id="sidebarMenu" class="collapse d-lg-block sidebar bg-white overflow-auto">
-    <div class="position-sticky">
-      <div class="list-group list-group-flush mx-3 mt-4">
-          {% for category in categories %}
-          {% if category.is_super_category %}
-            {% if category.children.all %}
-                <div class="dropdown list-group-item list-group-item-action py-2 ripple"  aria-current="true">
-                <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown"
-                        style="background-color: transparent; border: none;">
-                    {{ category.name }}
-                </button>
-                <ul class="dropdown-menu">
-                    {% for child in category.children.all %}
-                        <li><a href="{% url 'store:category_detail' child.name %}" class="dropdown-item">{{ child.name }}</a></li>
-                        {% if not forloop.last %}
-                            <li><hr class="dropdown-divider"/></li>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
-                </div>
-            {% else %}
-                <a href="{% url 'store:category_detail' category.name %}" class="list-group-item list-group-item-action py-2 ripple" aria-current="true">
-                    <span>{{ category.name }}</span>
-                </a>
-            {% endif %}
-          {% endif %}
-          {% endfor %}
-      </div>
-    </div>
-  </nav>
+  {% show_categories_tree categories %}
   <!-- Sidebar -->
 
   <!-- Navbar -->
