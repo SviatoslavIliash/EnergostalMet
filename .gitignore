@@ -3,3 +3,4 @@ __pycache__
 media
 migrations
 staticfiles
+db.sqlite3
