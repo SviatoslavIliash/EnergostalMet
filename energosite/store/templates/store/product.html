@@ -22,7 +22,7 @@
   <h2>Опис</h2>
   <h3>{{ product.description }}</h3>
 </div>
-<form action="{% url 'cart:CartAdd' product.id %}" method="post">
+<form id="add_to_cart_form" action="{% url 'cart:cart_add' product.id %}" method="post">
     {{ cart_product_form }}
     {% csrf_token %}
     <input type="submit" value="Додати в кошик">

@@ -22,6 +22,9 @@ class Cart(object):
             self.cart[product_id]['quantity'] += quantity
         self.save()
 
+        res_quantity = self.cart[product_id]['quantity']
+        return res_quantity, product.price * res_quantity
+
     def save(self):
         self.session[settings.CART_SESSION_ID] = self.cart
         self.session.modified = True

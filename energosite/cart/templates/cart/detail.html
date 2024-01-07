@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-  <h1>Ваша кошик товарів</h1>
+  <h1>Ваш кошик товарів</h1>
   <table class="cart">
     <thead>
       <tr>
@@ -22,29 +22,29 @@
         {% with product=item.product %}
           <tr>
             <td>
-              <a href="{{ product.get_absolute_url }}">
+              <a href="{% url 'store:product_detail' product.category.name product.id %}">
                 <img src="{{ product.get_image }}" alt="" />
               </a>
             </td>
             <td>{{ product.name }}</td>
             <td>
-              <form action="{% url 'cart:CartAdd' product.id %}" method="post" class="add">
+              <form id="cart_update_form_{{product.id}}" class="cart_update_form" action="{% url 'cart:cart_add' product.id %}" method="post">
                 {{ item.update_quantity_form.quantity }}
                 {{ item.update_quantity_form.update }}
                 {% csrf_token %}
                 <input type="submit" value="Оновити">
               </form>
             </td>
-            <td><a href="{% url 'cart:CartRemove' product.id %}">Видалити</a></td>
-            <td class="num">{{ item.price }} руб.</td>
-            <td class="num">{{ item.total_price }} грн</td>
+            <td><button id="cart_remove_{{product.id}}" class="remove_btn" data-url="{% url 'cart:cart_remove' product.id %}">Видалити</button></td>
+            <td>{{ item.price }} грн</td>
+            <td>{{ item.total_price }} грн</td>
           </tr>
         {% endwith %}
       {% endfor %}
         <tr class="total">
           <td>Повна сума</td>
           <td colspan="4"></td>
-          <td class="num">{{ cart.get_total_price }} грн</td>
+          <td class="num" id="cart_total_price">{{ cart.get_total_price }} грн</td>
         </tr>
     </tbody>
   </table>

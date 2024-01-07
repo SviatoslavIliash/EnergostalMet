@@ -3,7 +3,7 @@ from . import views
 
 app_name = "cart"
 urlpatterns = [
-    path(r'^$', views.CartDetail, name='CartDetail'),
-    path(r'^remove/(?P<product_id>\d+)/$', views.CartRemove, name='CartRemove'),
-    path(r'^add/(?P<product_id>\d+)/$', views.CartAdd, name='CartAdd'),
+    path("", views.cart_detail, name='cart_detail'),
+    path("remove/<int:product_id>/", views.cart_remove, name='cart_remove'),
+    path("add/<int:product_id>/", views.cart_add, name='cart_add'),
 ]
