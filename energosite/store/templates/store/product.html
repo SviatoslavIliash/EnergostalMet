@@ -10,7 +10,7 @@
 {% block body %}
 <div class="container">
   <h2>{{ product.name }}</h2>
-  <img src="{{ product.get_image}}" align="left"/>
+  <img src="{{ product.get_image }}" align="left"/>
   <h2>{{ product.price }} грн</h2>
   <ul>
       {% for attr in attrs %}
@@ -22,4 +22,11 @@
   <h2>Опис</h2>
   <h3>{{ product.description }}</h3>
 </div>
+<form action="{% url 'cart:CartAdd' product.id %}" method="post">
+    {{ cart_product_form }}
+    {% csrf_token %}
+    <input type="submit" value="Додати в кошик">
+</form>
+    <!--<button type="button" class="btn btn-secondary">Add to Cart</button>-->
+
 {% endblock %}
