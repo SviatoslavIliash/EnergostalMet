@@ -6,7 +6,7 @@ $(document).ready(function(){
         remove_from_cart(target, url)
     });
 
-    $("#add_to_cart_form").on('submit', (e) => {
+    $(".cart_add_form").on('submit', (e) => {
         e.preventDefault()
         add_to_cart(e.target)
     });
