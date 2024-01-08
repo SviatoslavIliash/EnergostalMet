@@ -1,3 +1,4 @@
+from django.contrib import admin
 from django.db import models
 from django.templatetags.static import static
 
@@ -23,6 +24,18 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+    @admin.display(description="Parents")
+    def parents_str(self):
+        res = ""
+        parents = self.parents()
+        parents_len = len(parents)
+        for index, parent in enumerate(parents):
+            res += parent.name
+            if index != parents_len - 1:
+                res += "->"
+        # res += self.name
+        return res
 
     def is_super_category(self):
         return self.parent is None
