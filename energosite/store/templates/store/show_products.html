@@ -2,7 +2,7 @@
   <div class="container py-5">
     {% for product_row in product_rows%}
     <div class="row">
-        {% for product in product_list %}
+        {% for product in product_row %}
           <div class="col-md-12 col-lg-4 mb-4 mb-lg-0">
             <a href="{% url 'store:product_detail' product.category product.id %}">
             <div class="card">
