@@ -38,7 +38,6 @@ def cart_detail(request):
                                             'quantity': item['quantity'],
                                             'update': True
                                         })
-    # TODO check if we need to send cart in context here
-    # TODO cart is available in context_processors
     return render(request, 'cart/detail.html', {'cart': cart})
+
 

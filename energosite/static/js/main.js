@@ -1,4 +1,4 @@
-// onsubmit and onclick functions
+// onsubmit, onclick and oninput functions
 $(document).ready(function(){
     $(".remove_btn").on("click", (e) => {
         target = e.target
@@ -11,11 +11,48 @@ $(document).ready(function(){
         add_to_cart(e.target)
     });
 
-    $('.cart_update_form').on('submit', (e) => {
-        e.preventDefault()
-        update_in_cart(e.target)
+    $(".input_quantity").on('input', (e) => {
+        update_quantity(e.target)
+    });
+
+    $(".input_quantity").on('keypress', (e) => {
+        if(is_update(e.target) && e.which == 13){
+            e.preventDefault()
+        }
     });
 }) // input -> on update
+
+
+function str_to_bool(str){
+    if (str.toLowerCase() === "true"){
+        return true
+    }
+    else if (str.toLowerCase() === "false"){
+        return false
+    }
+    throw "String " + str + " is not boolean value"
+}
+
+function is_update(target_input){
+    // <form> -> <div> -> <input>
+    var form = target_input.parentElement.parentElement
+    var form_data = new FormData(form)
+    return str_to_bool(form_data.get("update"))
+}
+
+function update_quantity(target_input){
+    // <form> -> <div> -> <input>
+    var form = target_input.parentElement.parentElement
+    var form_data = new FormData(form)
+    if(str_to_bool(form_data.get("update"))){
+        // we are in cart now, let's update it
+        update_in_cart(form)
+    }
+    else{
+        // we are on Product page now
+        //TODO add price update here if needed
+    }
+}
 
 
 function update_in_cart(target){
@@ -25,8 +62,6 @@ function update_in_cart(target){
 function add_to_cart(target){
     add_to_cart_inline(target, update_nav)
      // alert("Added to Cart!!!")
-
-
 }
 
 function add_to_cart_inline(form, after_func){

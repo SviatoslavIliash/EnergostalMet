@@ -10,10 +10,4 @@ urlpatterns = [
 
     # maybe should be moved to separate app like articles. should be discussed.
     path("article/<str:article_name>/", views.article, name="article"),
-
-    # maybe should be moved to separate app like cart. should be discussed.
-    path("cart", views.cart, name="cart"),
-
-    #path("about", views.about, name="about"),
-    #path("contacts", views.contacts, name="contacts"),
 ]

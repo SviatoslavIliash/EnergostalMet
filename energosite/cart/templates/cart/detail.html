@@ -45,10 +45,8 @@
             <td>{{ product.name }}</td>
             <td>
               <form id="cart_update_form_{{product.id}}" class="cart_update_form" action="{% url 'cart:cart_add' product.id %}" method="post">
-                {{ item.update_quantity_form.quantity }}
-                {{ item.update_quantity_form.update }}
-                {% csrf_token %}
-                <input type="submit" value="Оновити">
+                  {{ item.update_quantity_form }}
+                  {% csrf_token %}
               </form>
             </td>
             <td><button id="cart_remove_{{product.id}}" class="remove_btn" data-url="{% url 'cart:cart_remove' product.id %}">
