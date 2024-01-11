@@ -25,6 +25,10 @@ class Category(models.Model):
     parent = models.ForeignKey("self", related_name='children', null=True, blank=True, on_delete=models.CASCADE, verbose_name="Батьківська категорія")
     description = models.CharField(max_length=250, default='', blank=True, verbose_name="Опис")
     image = models.ImageField(upload_to='images/', null=True, blank=True, verbose_name="Зображення")
+    
+    class Meta:
+        verbose_name = "Категорія"
+        verbose_name_plural = "Категорії"
 
     def get_image(self):
         return get_image_impl(self)
@@ -65,6 +69,11 @@ class Product(models.Model):
     image = models.ImageField(upload_to='images/', null=True, blank=True, verbose_name="Зображення")
     description = models.CharField(max_length=250, default='', blank=True, verbose_name="Опис")
 
+    class Meta:
+        verbose_name = "Продукт"
+        verbose_name_plural = "Продукти"
+
+
     def get_image(self):
         return get_image_impl(self)
 
@@ -86,6 +95,10 @@ class Product(models.Model):
 class Attribute(models.Model):
     name = models.CharField(max_length=30)
 
+    class Meta:
+        verbose_name = "Атрибут"
+        verbose_name_plural = "Атрибути"
+
     def __str__(self):
         return self.name
 
@@ -94,6 +107,10 @@ class ProductAttrs(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE)
     value = models.CharField(max_length=50)
+
+    class Meta:
+        verbose_name = "Атрибут"
+        verbose_name_plural = "Атрибути"
 
     def __str__(self):
         return self.attribute.name + " = " + self.value
@@ -105,6 +122,10 @@ class Article(models.Model):
     in_top_navbar = models.BooleanField(default=False, verbose_name="Показувати в верхній навігації")
     in_footer = models.BooleanField(default=True, verbose_name="Показувати в футері")
 
+    class Meta:
+        verbose_name = "Стаття"
+        verbose_name_plural = "Статті"
+
     def __str__(self):
         return self.name
 
@@ -113,5 +134,9 @@ class WholesalePrice(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Продукт")
     from_quantity = models.IntegerField(verbose_name="Від:", )
     price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name="Ціна")
+
+    class Meta:
+        verbose_name = "Оптова ціна"
+        verbose_name_plural = "Оптові ціни"
 
 
