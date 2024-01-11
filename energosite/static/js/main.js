@@ -63,12 +63,16 @@ function update_nav(data, obj){
 function update_cart(data, obj){
     var total_price = data["Total"]
     var form_price = 0
+    var form_price_per_one = 0
     var is_deleted = false
     if ("Price" in data){
         form_price = data["Price"]
     }
     if ("Deleted" in data){
         is_deleted = true
+    }
+    if ("Price_per_one" in data){
+        form_price_per_one = data["Price_per_one"]
     }
 
     update_nav_cart_price(total_price)
@@ -80,7 +84,8 @@ function update_cart(data, obj){
         row.remove()
     }
     else{
-        // update price in <td> element
+        // update price and total_price in <td> elements
+        row.cells[row.cells.length - 2].textContent = form_price_per_one + " грн"
         row.cells[row.cells.length - 1].textContent = form_price + " грн"
     }
 }

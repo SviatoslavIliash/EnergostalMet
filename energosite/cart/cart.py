@@ -13,17 +13,32 @@ class Cart(object):
 
     def add(self, product, quantity=1, update_quantity=False):
         product_id = str(product.id)
-        if product_id not in self.cart:
+        '''if product_id not in self.cart:
             self.cart[product_id] = {'quantity': 0,
                                      'price': str(product.price)}
         if update_quantity:
             self.cart[product_id]['quantity'] = quantity
         else:
+            self.cart[product_id]['quantity'] += quantity'''
+        res_quantity = quantity
+        #price = product.price
+
+        if product_id not in self.cart:
+            price = product.get_price(quantity)
+            self.cart[product_id] = {'quantity': quantity, 'price': str(price)}
+        elif update_quantity:
+            price = product.get_price(quantity)
+            self.cart[product_id]['quantity'] = quantity
+            self.cart[product_id]['price'] = str(price)
+        else:
             self.cart[product_id]['quantity'] += quantity
+            res_quantity = self.cart[product_id]['quantity']
+            price = product.get_price(res_quantity)
+            self.cart[product_id]['price'] = str(price)
+
         self.save()
 
-        res_quantity = self.cart[product_id]['quantity']
-        return res_quantity, product.price * res_quantity
+        return res_quantity, price
 
     def save(self):
         self.session[settings.CART_SESSION_ID] = self.cart

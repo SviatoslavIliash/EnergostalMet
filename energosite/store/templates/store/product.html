@@ -11,18 +11,28 @@
 {% block body %}
 
 <div class="container">
-  <h2>{{ product.name }}</h2>
-  <img src="{{ product.get_image }}" align="left"/>
-  <h2>{{ product.price }} грн</h2>
-  <ul>
-      {% for attr in attrs %}
-        <li>
-            <h3>{{ attr }} </h3>
-        </li>
-      {% endfor %}
-  </ul>
-  <h2>Опис</h2>
-  <h3>{{ product.description }}</h3>
+    <h2>{{ product.name }}</h2>
+    <img src="{{ product.get_image }}" align="left"/>
+    <h2>{{ product.price }} грн</h2>
+    {% if wholesale_prices %}
+        <h2>Оптові ціни</h2>
+        <ul>
+            {% for price in wholesale_prices %}
+                <li>
+                    <h3> від {{price.from_quantity}} {{price.price}} грн</h3>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <ul>
+        {% for attr in attrs %}
+            <li>
+                <h3>{{ attr }} </h3>
+            </li>
+        {% endfor %}
+    </ul>
+    <h2>Опис</h2>
+    <h3>{{ product.description }}</h3>
 </div>
 <form id="add_to_cart_form_{{product.id}}" class="cart_add_form" action="{% url 'cart:cart_add' product.id %}" method="post">
     {{ cart_product_form }}

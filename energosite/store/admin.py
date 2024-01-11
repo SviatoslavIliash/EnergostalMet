@@ -1,15 +1,20 @@
 from django.contrib import admin
 
-from .models import Category, Product, Attribute, ProductAttrs, Article
+from .models import Category, Product, Attribute, ProductAttrs, Article, WholesalePrice
 # Register your models here.
 
 class ProductAttrsInline(admin.TabularInline):
     model = ProductAttrs
     extra = 1
 
+class WholesalePriceInline(admin.TabularInline):
+    model = WholesalePrice
+    extra = 2
+
 class ProductAdmin(admin.ModelAdmin):
     inlines = [
         ProductAttrsInline,
+        WholesalePriceInline
     ]
     list_filter = [("category", admin.RelatedOnlyFieldListFilter)]
     search_fields = ["name", "category__name"]

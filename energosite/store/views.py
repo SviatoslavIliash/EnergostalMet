@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from .models import Category, Product, ProductAttrs, Article
+from .models import Category, Product, ProductAttrs, Article, WholesalePrice
 from cart.forms import CartAddProductForm
 
 categories_per_row = 3
@@ -56,8 +56,10 @@ def category_detail(request, category_name):
 def product_detail(request, category_name, product_id):
     product = Product.objects.get(pk=product_id)
     attributes = ProductAttrs.objects.filter(product=product)
+    wholesale_prices = WholesalePrice.objects.filter(product=product).all()
     cart_product_form = CartAddProductForm()
-    context = {"product": product, "attrs": attributes, "cart_product_form": cart_product_form}
+    context = {"product": product, "attrs": attributes, "cart_product_form": cart_product_form,
+               "wholesale_prices": wholesale_prices}
     return render(request, "store/product.html", context)
 
 

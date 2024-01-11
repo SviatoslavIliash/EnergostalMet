@@ -16,7 +16,8 @@ def cart_add(request, product_id):
         cd = form.cleaned_data
         upd = cd["update"]
         quantity, price = cart.add(product=product, quantity=cd['quantity'], update_quantity=upd)
-        response["Price"] = price
+        response["Price_per_one"] = price
+        response["Price"] = price * quantity
     response["Total"] = cart.get_total_price()
     return JsonResponse(response)
 
