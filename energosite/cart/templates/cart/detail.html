@@ -5,6 +5,20 @@
 {% endblock %}
 
 {% block body %}
+<style>
+
+  .material-symbols-outlined {
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 600,
+    'GRAD' 0,
+    'opsz' 40
+  }
+  table, th, td {
+    border: 1px solid black;
+    border-color: #96D4D4;
+  }
+</style>
   <h1>Ваш кошик товарів</h1>
   <table class="cart">
     <thead>
@@ -22,9 +36,11 @@
         {% with product=item.product %}
           <tr>
             <td>
+
               <a href="{% url 'store:product_detail' product.category.name product.id %}">
                 <img src="{{ product.get_image }}" alt="" />
               </a>
+
             </td>
             <td>{{ product.name }}</td>
             <td>
@@ -35,7 +51,10 @@
                 <input type="submit" value="Оновити">
               </form>
             </td>
-            <td><button id="cart_remove_{{product.id}}" class="remove_btn" data-url="{% url 'cart:cart_remove' product.id %}">Видалити</button></td>
+            <td><button id="cart_remove_{{product.id}}" class="remove_btn" data-url="{% url 'cart:cart_remove' product.id %}">
+              <span class="material-symbols-outlined">delete</span>
+            </button>
+            </td>
             <td>{{ item.price }} грн</td>
             <td>{{ item.total_price }} грн</td>
           </tr>

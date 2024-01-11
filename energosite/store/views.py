@@ -11,7 +11,11 @@ def index(request):
     super_category_list = list(filter(lambda c: c.is_super_category(), category_list))
     category_chunks = [super_category_list[x:x + categories_per_row]
                        for x in range(0, len(super_category_list), categories_per_row)]
-    context = {"category_chunks": category_chunks}
+    '''block for all products'''
+    product_list = Product.objects.all()
+    products_per_row = 3
+    product_rows = [product_list[x:x + products_per_row] for x in range(0, len(product_list), products_per_row)]
+    context = {"category_chunks": category_chunks, "product_rows": product_rows, "product_list": product_list}
     return render(request, "store/index.html", context)
 
 def article(request, article_name):
@@ -55,4 +59,5 @@ def product_detail(request, category_name, product_id):
     cart_product_form = CartAddProductForm()
     context = {"product": product, "attrs": attributes, "cart_product_form": cart_product_form}
     return render(request, "store/product.html", context)
+
 
