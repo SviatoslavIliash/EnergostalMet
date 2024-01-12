@@ -3,7 +3,7 @@
 {% block title%}{{ article.name }}{% endblock %}
 
 {% block breadcrumbs %}
-  &rsaquo; <a href="{% url 'store:article' current_article.name %}">{{ current_article.name }}</a>
+  &rsaquo; <a href="{% url 'store:article' current_article.slug %}">{{ current_article.name }}</a>
 {% endblock %}
 
 {% block body %}

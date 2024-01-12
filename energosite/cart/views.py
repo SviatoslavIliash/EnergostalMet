@@ -7,9 +7,9 @@ from .forms import CartAddProductForm
 
 
 @require_POST
-def cart_add(request, product_id):
+def cart_add(request, product_slug):
     cart = Cart(request)
-    product = get_object_or_404(Product, id=product_id)
+    product = get_object_or_404(Product, slug=product_slug)
     form = CartAddProductForm(request.POST)
     response = {}
     if form.is_valid():
@@ -22,9 +22,9 @@ def cart_add(request, product_id):
     return JsonResponse(response)
 
 
-def cart_remove(request, product_id):
+def cart_remove(request, product_slug):
     cart = Cart(request)
-    product = get_object_or_404(Product, id=product_id)
+    product = get_object_or_404(Product, slug=product_slug)
     cart.remove(product)
     response = {"Total": cart.get_total_price(), "Deleted": True}
     return JsonResponse(response)

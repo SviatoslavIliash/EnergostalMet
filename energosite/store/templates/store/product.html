@@ -4,8 +4,8 @@
 
 
 {% block breadcrumbs %}
-  &rsaquo; <a href="{% url 'store:category_detail' product.category.name %}">{{ product.category.name }}</a>
-  &rsaquo; <a href="{% url 'store:product_detail' product.category.name product.pk %}">{{ product.name }}</a>
+  &rsaquo; <a href="{% url 'store:category_detail' product.category.slug %}">{{ product.category.name }}</a>
+  &rsaquo; <a href="{% url 'store:product_detail' product.category.slug product.slug %}">{{ product.name }}</a>
 {% endblock %}
 
 {% block body %}
@@ -34,7 +34,7 @@
     <h2>Опис</h2>
     <h3>{{ product.description }}</h3>
 </div>
-<form id="add_to_cart_form_{{product.id}}" class="cart_add_form" action="{% url 'cart:cart_add' product.id %}" method="post">
+<form id="add_to_cart_form_{{product.id}}" class="cart_add_form" action="{% url 'cart:cart_add' product.slug %}" method="post">
     {{ cart_product_form }}
     {% csrf_token %}
     <input type="submit" value="Додати в кошик">

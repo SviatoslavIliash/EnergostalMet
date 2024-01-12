@@ -22,7 +22,7 @@ def show_category_inline(category, last):
         if not last:
             output.append("<li><hr class=\"dropdown-divider\"/></li>")
     else:
-        output.append(f"<li><a href=\"{escape(reverse('store:category_detail', args=[escape(category.name)]))}\" "
+        output.append(f"<li><a href=\"{escape(reverse('store:category_detail', args=[escape(category.slug)]))}\" "
                       f"class=\"dropdown-item\">{escape(category.name)}</a></li>")
         # divider line
         if not last:
@@ -52,7 +52,7 @@ def show_categories_tree(categories):
                 output.append("</ul>")
                 output.append("</div>")
             else:
-                output.append(f"<a href=\"{escape(reverse('store:category_detail', args=[escape(category.name)]))}\" "
+                output.append(f"<a href=\"{escape(reverse('store:category_detail', args=[escape(category.slug)]))}\" "
                               f"class=\"list-group-item list-group-item-action py-2 ripple\" "
                               f"aria-current=\"true\"><span>{escape(category.name)}</span></a>")
 

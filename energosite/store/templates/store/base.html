@@ -96,7 +96,7 @@
 
           {% for article in top_articles %}
             <li class="nav_item">
-                <a class="nav-link fw-bold py-1 px-2" href="{% url 'store:article' article.name %}">
+                <a class="nav-link fw-bold py-1 px-2" href="{% url 'store:article' article.slug %}">
                     <i class="fas fa-lock fa-fw me-3"></i><span>{{ article.name }}</span></a>
             </li>
           {% endfor %}
