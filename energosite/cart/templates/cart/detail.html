@@ -46,20 +46,18 @@
         {% with product=item.product %}
           <tr>
             <td>
-
-              <a href="{% url 'store:product_detail' product.category.name product.id %}">
+              <a href="{% url 'store:product_detail' product.category.slug product.slug %}">
                 <img class="resp_img" src="{{ product.get_image }}" alt="" />
               </a>
-
             </td>
             <td>{{ product.name }}</td>
             <td>
-              <form  id="cart_update_form_{{product.id}}" class="cart_update_form" action="{% url 'cart:cart_add' product.id %}" method="post">
+              <form id="cart_update_form_{{product.id}}" class="cart_update_form" action="{% url 'cart:cart_add' product.slug %}" method="post">
                   {{ item.update_quantity_form }}
                   {% csrf_token %}
               </form>
             </td>
-            <td><button id="cart_remove_{{product.id}}" class="remove_btn" data-url="{% url 'cart:cart_remove' product.id %}">
+            <td><button id="cart_remove_{{product.id}}" class="remove_btn" data-url="{% url 'cart:cart_remove' product.slug %}">
               <span class="material-symbols-outlined">delete</span>
             </button>
             </td>

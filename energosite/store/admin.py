@@ -19,6 +19,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = [("category", admin.RelatedOnlyFieldListFilter)]
     search_fields = ["name", "category__name"]
     list_display = ["__str__", "category", "price"]
+    prepopulated_fields = {"slug": ["name"]}
 
 
 class CategoryInline(admin.StackedInline):
@@ -38,9 +39,15 @@ class CategoryAdmin(admin.ModelAdmin):
     inlines = [CategoryInline]
     ordering = ["parent"]
 
+    prepopulated_fields = {"slug": ["name"]}
+
+
+class ArticleAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ["name"]}
+
 
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Attribute)
-admin.site.register(Article)
+admin.site.register(Article, ArticleAdmin)
 

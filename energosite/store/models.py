@@ -1,3 +1,5 @@
+import uuid
+
 from django.contrib import admin
 from django.db import models
 from django.templatetags.static import static
@@ -25,7 +27,8 @@ class Category(models.Model):
     parent = models.ForeignKey("self", related_name='children', null=True, blank=True, on_delete=models.CASCADE, verbose_name="Батьківська категорія")
     description = models.CharField(max_length=250, default='', blank=True, verbose_name="Опис")
     image = models.ImageField(upload_to='images/', null=True, blank=True, verbose_name="Зображення")
-    
+    slug = models.SlugField(null=False, default="")
+
     class Meta:
         verbose_name = "Категорія"
         verbose_name_plural = "Категорії"
@@ -68,6 +71,7 @@ class Product(models.Model):
     attributes = models.ManyToManyField("Attribute", through="ProductAttrs")
     image = models.ImageField(upload_to='images/', null=True, blank=True, verbose_name="Зображення")
     description = models.CharField(max_length=250, default='', blank=True, verbose_name="Опис")
+    slug = models.SlugField(null=False, default="")
 
     class Meta:
         verbose_name = "Продукт"
@@ -121,6 +125,7 @@ class Article(models.Model):
     text = models.TextField(verbose_name="Текст")
     in_top_navbar = models.BooleanField(default=False, verbose_name="Показувати в верхній навігації")
     in_footer = models.BooleanField(default=True, verbose_name="Показувати в футері")
+    slug = models.SlugField(null=False, default="")
 
     class Meta:
         verbose_name = "Стаття"

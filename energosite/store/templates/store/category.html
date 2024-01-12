@@ -4,9 +4,9 @@
 
 {% block breadcrumbs %}
   {% for parent in category.parents %}
-    &rsaquo; <a href="{% url 'store:category_detail' parent.name %}">{{ parent.name }}</a>
+    &rsaquo; <a href="{% url 'store:category_detail' parent.slug %}">{{ parent.name }}</a>
   {% endfor %}
-  &rsaquo; <a href="{% url 'store:category_detail' category.name %}">{{ category.name }}</a>
+  &rsaquo; <a href="{% url 'store:category_detail' category.slug %}">{{ category.name }}</a>
 {% endblock %}
 
 {% block body %}
@@ -19,7 +19,7 @@
       <div class="row">
         {% for product in product_row %}
           <div class="col-md-12 col-lg-4 mb-4 mb-lg-0">
-            <a href="{% url 'store:product_detail' category.name product.id %}">
+            <a href="{% url 'store:product_detail' category.slug product.slug %}">
             <div class="card">
               <div class="d-flex justify-content-between p-3">
               </div>

@@ -4,7 +4,7 @@
     <div class="row">
         {% for product in product_row %}
           <div class="col-md-12 col-lg-4 mb-4 mb-lg-0">
-            <a href="{% url 'store:product_detail' product.category product.id %}">
+            <a href="{% url 'store:product_detail' product.category.slug product.slug %}">
             <div class="card">
               <div class="d-flex justify-content-between p-3">
               </div>

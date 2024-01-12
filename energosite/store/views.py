@@ -18,9 +18,9 @@ def index(request):
     context = {"category_chunks": category_chunks, "product_rows": product_rows, "product_list": product_list}
     return render(request, "store/index.html", context)
 
-def article(request, article_name):
-    current_article = Article.objects.filter(name=article_name)
-    context = {"current_article": current_article.first()}
+def article(request, article_slug):
+    current_article = Article.objects.get(slug=article_slug)
+    context = {"current_article": current_article}
     return render(request, "store/article.html", context)
 
 #def about(request):
@@ -35,17 +35,17 @@ def cart(request):
 #    return render(request, "store/contacts.html")
 
 
-def category_detail(request, category_name):
+def category_detail(request, category_slug):
     product_chunks = []
     category_chunks = []
-    category = (Category.objects.filter(name=category_name)).first()
+    category = Category.objects.get(slug=category_slug)
     children = category.children.all()
     has_subcategories = False
     if children:
         has_subcategories = True
         category_chunks = [children[x:x+categories_per_row] for x in range(0, len(children), categories_per_row)]
     else:
-        product_list = Product.objects.filter(category__name=category_name)
+        product_list = Product.objects.filter(category__name=category.name)
         products_per_row = 3
         product_chunks = [product_list[x:x + products_per_row] for x in range(0, len(product_list), products_per_row)]
     context = {"product_chunks": product_chunks, "category": category,
@@ -53,8 +53,8 @@ def category_detail(request, category_name):
     return render(request, "store/category.html", context)
 
 
-def product_detail(request, category_name, product_id):
-    product = Product.objects.get(pk=product_id)
+def product_detail(request, category_slug, product_slug):
+    product = Product.objects.get(slug=product_slug)
     attributes = ProductAttrs.objects.filter(product=product)
     wholesale_prices = WholesalePrice.objects.filter(product=product).all()
     cart_product_form = CartAddProductForm()
