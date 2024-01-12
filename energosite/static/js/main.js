@@ -12,11 +12,17 @@ $(document).ready(function(){
     });
 
     $(".input_quantity").on('input', (e) => {
-        update_quantity(e.target)
+        if (e.target.validity.valid){
+            update_quantity(e.target)
+        }
+        else{
+            e.target.reportValidity()
+        }
     });
 
     $(".input_quantity").on('keypress', (e) => {
-        if(is_update(e.target) && e.which == 13){
+        //if(is_update(e.target) && e.which == 13){
+        if(e.which == 13){
             e.preventDefault()
         }
     });
