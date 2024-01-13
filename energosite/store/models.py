@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator
 from django.db import models
 from django.templatetags.static import static
 
@@ -141,5 +143,31 @@ class WholesalePrice(models.Model):
     class Meta:
         verbose_name = "Оптова ціна"
         verbose_name_plural = "Оптові ціни"
+
+
+class CompanyInfo(models.Model):
+    name = models.CharField(max_length=30, verbose_name="Назва")
+    email = models.EmailField(max_length=50, verbose_name="Email")
+
+    def __str__(self):
+        return self.name
+
+    # following 2 methods are needed to preserve Singleton behaviour
+    def clean(self):
+        if not self.pk and CompanyInfo.objects.exists():
+            raise ValidationError("Дозволено додавати тільки один об'єкт з інформацією про компанію. "
+                                  "Для редагування інформації використовуйте створений раніше об'єкт.")
+
+    def save(self, *args, **kwargs):
+        self.pk = 1
+        super().save(*args, **kwargs)
+
+
+class PhoneNumber(models.Model):
+    company = models.ForeignKey(CompanyInfo, related_name="phone_numbers", on_delete=models.CASCADE)
+    phone_regex = RegexValidator(regex=r'^(\+38)?0\d{9}$')
+    phone_number = models.CharField(validators=[phone_regex], max_length=13, blank=False, verbose_name="Телефон")
+
+
 
 
