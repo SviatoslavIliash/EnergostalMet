@@ -1,5 +1,3 @@
-import uuid
-
 from django.contrib import admin
 from django.db import models
 from django.templatetags.static import static
@@ -27,7 +25,7 @@ class Category(models.Model):
     parent = models.ForeignKey("self", related_name='children', null=True, blank=True, on_delete=models.CASCADE, verbose_name="Батьківська категорія")
     description = models.CharField(max_length=250, default='', blank=True, verbose_name="Опис")
     image = models.ImageField(upload_to='images/', null=True, blank=True, verbose_name="Зображення")
-    slug = models.SlugField(null=False, default="")
+    slug = models.SlugField(null=False, default="", unique=True)
 
     class Meta:
         verbose_name = "Категорія"
@@ -65,13 +63,13 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=30, verbose_name="Назва")
+    name = models.CharField(max_length=30, unique=True, verbose_name="Назва")
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="Категорія")
     price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name="Ціна")
     attributes = models.ManyToManyField("Attribute", through="ProductAttrs")
     image = models.ImageField(upload_to='images/', null=True, blank=True, verbose_name="Зображення")
     description = models.CharField(max_length=250, default='', blank=True, verbose_name="Опис")
-    slug = models.SlugField(null=False, default="")
+    slug = models.SlugField(null=False, default="", unique=True)
 
     class Meta:
         verbose_name = "Продукт"
@@ -121,11 +119,11 @@ class ProductAttrs(models.Model):
 
 
 class Article(models.Model):
-    name = models.CharField(max_length=30, verbose_name="Назва")
+    name = models.CharField(max_length=30, unique=True, verbose_name="Назва")
     text = models.TextField(verbose_name="Текст")
     in_top_navbar = models.BooleanField(default=False, verbose_name="Показувати в верхній навігації")
     in_footer = models.BooleanField(default=True, verbose_name="Показувати в футері")
-    slug = models.SlugField(null=False, default="")
+    slug = models.SlugField(null=False, default="", unique=True)
 
     class Meta:
         verbose_name = "Стаття"

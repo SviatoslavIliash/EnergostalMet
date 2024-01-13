@@ -20,6 +20,7 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ["name", "category__name"]
     list_display = ["__str__", "category", "price"]
     prepopulated_fields = {"slug": ["name"]}
+    save_as = True
 
 
 class CategoryInline(admin.StackedInline):
@@ -35,7 +36,7 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields = ["name"]
     list_filter = [("parent", admin.RelatedOnlyFieldListFilter)]
     list_display = ["__str__", "parents_str"]
-
+    save_as = True
     inlines = [CategoryInline]
     ordering = ["parent"]
 
@@ -44,6 +45,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 class ArticleAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ["name"]}
+    save_as = True
 
 
 admin.site.register(Category, CategoryAdmin)
