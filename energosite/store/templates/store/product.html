@@ -9,10 +9,20 @@
 {% endblock %}
 
 {% block body %}
-
+<style>
+    .resp_img {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+  }
+    .input_quantity{
+    width: 100%;
+    max-width: 7em;
+  }
+</style>
 <div class="container">
     <h2>{{ product.name }}</h2>
-    <img src="{{ product.get_image }}" align="left"/>
+    <img class="resp_img" src="{{ product.get_image }}" align="left"/>
     <h2>{{ product.price }} грн</h2>
     {% if wholesale_prices %}
         <h2>Оптові ціни</h2>
