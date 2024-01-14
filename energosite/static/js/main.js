@@ -67,6 +67,7 @@ function update_in_cart(target){
 
 function add_to_cart(target){
     add_to_cart_inline(target, update_nav)
+    tempAlert("Товар додано у кошик!",3000);
      // alert("Added to Cart!!!")
 }
 
@@ -131,18 +132,15 @@ function update_cart(data, obj){
     }
 }
 
-//    function customAlert(msg,duration) // Function for message add product to cart
-//    {
-//     var styler = document.createElement("div");
-//      styler.setAttribute("style","border: solid 1px Green;width:auto;height:auto;top:50%;left:40%;background-color:#22CE83;color:Black");
-//     styler.innerHTML = "<h1>"+msg+"</h1>";
-//     setTimeout(function()
-//     {
-//       styler.parentNode.removeChild(styler);
-//     },duration);
-//     document.body.appendChild(styler);
-//         function caller()
-//        {
-//            customAlert("Added to cart","3000");
-//        }
-//    }
+function tempAlert(msg,duration)
+{
+ var el = document.createElement("div");
+ el.setAttribute("class", "alert alert-success d-flex align-items-center");
+ el.setAttribute( "style","position:fixed;top:10%;left:50%;z-index: 2000;");
+ el.innerHTML = msg;
+ setTimeout(function(){
+  el.parentNode.removeChild(el);
+ },duration);
+ document.body.appendChild(el);
+}
+
