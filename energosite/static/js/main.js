@@ -1,9 +1,8 @@
 // onsubmit, onclick and oninput functions
 $(document).ready(function(){
     $(".remove_btn").on("click", (e) => {
-        target = e.target
-        url = target.getAttribute("data-url")
-        remove_from_cart(target, url)
+        url = e.target.getAttribute("data-url")
+        remove_from_cart(e.target, url)
     });
 
     $(".cart_add_form").on('submit', (e) => {
@@ -26,7 +25,7 @@ $(document).ready(function(){
             e.preventDefault()
         }
     });
-}) // input -> on update
+})
 
 
 function str_to_bool(str){
@@ -40,15 +39,12 @@ function str_to_bool(str){
 }
 
 function is_update(target_input){
-    // <form> -> <div> -> <input>
-    var form = target_input.parentElement.parentElement
-    var form_data = new FormData(form)
+    var form_data = new FormData(target_input.form)
     return str_to_bool(form_data.get("update"))
 }
 
 function update_quantity(target_input){
-    // <form> -> <div> -> <input>
-    var form = target_input.parentElement.parentElement
+    var form = target_input.form
     var form_data = new FormData(form)
     if(str_to_bool(form_data.get("update"))){
         // we are in cart now, let's update it
@@ -68,7 +64,6 @@ function update_in_cart(target){
 function add_to_cart(target){
     add_to_cart_inline(target, update_nav)
     tempAlert("Товар додано у кошик!",3000);
-     // alert("Added to Cart!!!")
 }
 
 function add_to_cart_inline(form, after_func){
@@ -105,30 +100,25 @@ function update_nav(data, obj){
 function update_cart(data, obj){
     var total_price = data["Total"]
     var form_price = 0
-    var form_price_per_one = 0
     var is_deleted = false
-    if ("Price" in data){
-        form_price = data["Price"]
-    }
+
     if ("Deleted" in data){
         is_deleted = true
     }
-    if ("Price_per_one" in data){
-        form_price_per_one = data["Price_per_one"]
+    if ("Price" in data){
+        form_price = data["Price"]
     }
 
     update_nav_cart_price(total_price)
     update_cart_total_price(total_price)
 
-    row = obj.parentElement.parentElement
+    card = obj.closest(".card")
     if (is_deleted){
-        // remove deleted row from Html DOM
-        row.remove()
+        card.remove()
     }
     else{
-        // update price and total_price in <td> elements
-        row.cells[row.cells.length - 2].textContent = form_price_per_one + " грн"
-        row.cells[row.cells.length - 1].textContent = form_price + " грн"
+        var price_elem = card.getElementsByClassName("card_price")[0]
+        price_elem.textContent = form_price + " грн"
     }
 }
 
