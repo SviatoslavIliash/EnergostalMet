@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Category, Product, Attribute, ProductAttrs, Article, WholesalePrice
+from .models import Category, Product, Attribute, ProductAttrs, Article, WholesalePrice, CompanyInfo, PhoneNumber
 # Register your models here.
 
 class ProductAttrsInline(admin.TabularInline):
@@ -48,8 +48,17 @@ class ArticleAdmin(admin.ModelAdmin):
     save_as = True
 
 
+class PhoneNumberInline(admin.TabularInline):
+    model = PhoneNumber
+    extra = 1
+
+
+class CompanyInfoAdmin(admin.ModelAdmin):
+    inlines = [PhoneNumberInline]
+
+
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Attribute)
 admin.site.register(Article, ArticleAdmin)
-
+admin.site.register(CompanyInfo, CompanyInfoAdmin)
