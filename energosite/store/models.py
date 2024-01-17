@@ -149,6 +149,10 @@ class CompanyInfo(models.Model):
     name = models.CharField(max_length=30, verbose_name="Назва")
     email = models.EmailField(max_length=50, verbose_name="Email")
 
+    class Meta:
+        verbose_name = "Компанія"
+        verbose_name_plural = "Компанії"
+
     def __str__(self):
         return self.name
 
@@ -168,6 +172,8 @@ class PhoneNumber(models.Model):
     phone_regex = RegexValidator(regex=r'^(\+38)?0\d{9}$')
     phone_number = models.CharField(validators=[phone_regex], max_length=13, blank=False, verbose_name="Телефон")
 
-
+    class Meta:
+        verbose_name = "Телефонний номер"
+        verbose_name_plural = "Телефонні номери"
 
 

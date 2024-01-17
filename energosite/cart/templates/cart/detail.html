@@ -1,4 +1,4 @@
-{% extends "store/base.html" %}
+{% extends "cart/base_cart.html" %}
 
 {% block title %}
   Кошик
@@ -60,56 +60,53 @@
 <h1>Ваш кошик товарів</h1>
 {% for item in cart %}
 {% with product=item.product %}
-    <div class="card" style="max-height:202px">
-        <div class="row g-0 align-items-center">
-            <div class="col-sm-4 col-3">
-                <a href="{% url 'store:product_detail' product.category.slug product.slug %}">
-                    <img src="{{ product.get_image }}"
-                         class="resp_img" alt="{{product.name}}" style="object-fit: contain;"/>
-                </a>
-            </div>
-            <div class="col-sm-8 col-9">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-5 col-12">
-                            <a href="{% url 'store:product_detail' product.category.slug product.slug %}">
-                                <span>{{ product.name }}</span>
-                            </a>
-                        </div>
-                        <div class="col-sm-3 col-12">
-                            <span class="card_price">{{ item.price }} грн</span>
-                        </div>
-                        <div class="col-sm-3 col-8">
-                            <form id="cart_update_for_{{product.id}}" class="cart_update_form" action="{% url 'cart:cart_add' product.slug %}" method="post">
-                                {{ item.update_quantity_form }}
-                                {% csrf_token %}
-                            </form>
-                        </div>
-                        <div class="col-sm-1 col-4">
-                            <span id="cart_remove_{{product.id}}" class="material-symbols-outlined remove_btn"
-                                  data-url="{% url 'cart:cart_remove' product.slug %}">
-                                  delete
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="card" style="max-height:202px">
+  <div class="row g-0 align-items-center">
+    <div class="col-sm-4 col-3">
+      <a href="{% url 'store:product_detail' product.category.slug product.slug %}">
+        <img src="{{ product.get_image }}"
+             class="resp_img" alt="{{product.name}}" style="object-fit: contain;"/>
+      </a>
     </div>
+    <div class="col-sm-8 col-9">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm-5 col-12">
+            <a href="{% url 'store:product_detail' product.category.slug product.slug %}">
+              <span>{{ product.name }}</span>
+            </a>
+          </div>
+          <div class="col-sm-3 col-12">
+            <span class="card_price">{{ item.price }} грн</span>
+          </div>
+          <div class="col-sm-3 col-8">
+            <form id="cart_update_for_{{product.id}}" class="cart_update_form" action="{% url 'cart:cart_add' product.slug %}" method="post">
+              {{ item.update_quantity_form }}
+              {% csrf_token %}
+            </form>
+          </div>
+          <div class="col-sm-1 col-4">
+            <span id="cart_remove_{{product.id}}" class="material-symbols-outlined remove_btn"
+                  data-url="{% url 'cart:cart_remove' product.slug %}">delete</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endwith %}
 {% endfor %}
 
 <div class="row align-items-center mt-3">
-    <div class="col-6">
-        <h5>Повна сума</h5>
-    </div>
-    <div class="col-6">
-        <h5 id="cart_total_price">{{ cart.get_total_price }} грн</h5>
-    </div>
+  <div class="col-6">
+    <h5>Повна сума</h5>
+  </div>
+  <div class="col-6">
+    <h5 id="cart_total_price">{{ cart.get_total_price }} грн</h5>
+  </div>
 </div>
-
 <p class="text-right">
-    <a href="{% url 'store:index' %}" class="btn"><button type="button" class="btn btn-secondary">Продовжити покупки</button></a>
-    <a href="#"> <button type="button" class="btn btn-success">Оформити замовлення</button></a>
+  <a href="{% url 'store:index' %}" class="btn"><button type="button" class="btn btn-secondary">Продовжити покупки</button></a>
+  <a href="#"> <button type="button" class="btn btn-success">Оформити замовлення</button></a>
 </p>
 {% endblock %}

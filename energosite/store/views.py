@@ -23,17 +23,6 @@ def article(request, article_slug):
     context = {"current_article": current_article}
     return render(request, "store/article.html", context)
 
-#def about(request):
-#    return render(request, "store/about.html")
-
-
-def cart(request):
-    return render(request, "store/cart.html")
-
-
-#def contacts(request):
-#    return render(request, "store/contacts.html")
-
 
 def category_detail(request, category_slug):
     product_chunks = []

@@ -25,8 +25,22 @@ $(document).ready(function(){
             e.preventDefault()
         }
     });
+
+    nav_height_changer()
 })
 
+function nav_height_changer(){
+    let top_navbar = document.getElementById("main-navbar");
+    let top_navbar_height = $(top_navbar).outerHeight();
+
+    let sidebar_menu = document.getElementById("sidebarMenu");
+    let main_block = document.getElementById("main-block");
+
+    sidebar_menu.style["margin-top"] = top_navbar_height.toString() + "px";
+    main_block.style["margin-top"] = top_navbar_height.toString() + "px";
+    main_block_style = getComputedStyle(main_block);
+
+}
 
 function str_to_bool(str){
     if (str.toLowerCase() === "true"){
@@ -75,9 +89,12 @@ function add_to_cart_inline(form, after_func){
 }
 
 function remove_from_cart(button, url){
-    $.get(url, function(data){
-        update_cart(data, button)
-    })
+    if (confirm("Видалити товар з кошика?")) {
+        $.get(url, function(data){
+            update_cart(data, button)
+
+        })
+    }
 }
 
 function update_price(elem_id, new_price){
