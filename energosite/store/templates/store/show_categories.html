@@ -1,22 +1,18 @@
 <section style="background-color: #eee;">
-  <div class="container py-5">
+  <div class="container">
     {% for category_row in category_chunks%}
     <div class="row">
       {% for category in category_row %}
-      <div class="col-md-12 col-lg-4 mb-4 mb-lg-2">
-        <a href="{% url 'store:category_detail' category.slug %}">
-        <div class="card">
-          <div class="ratio ratio-4x3" style="object-fit: contain;">
-              <img src="{{ category.get_image}}"
-                class="card-img-top" alt="{{category.name}}" style="object-fit: contain;" />
-          </div>
-          <div class="card-body">
-            <div class="d-flex justify-content-between mb-3">
-              <h5 class="mb-0">{{ category.name }}</h5>
+      <div class="col-12 col-lg-4 my-1 d-flex align-items-stretch">
+        <div class="card w-100">
+          <a href="{% url 'store:category_detail' category.slug %}">
+            <img src="{{ category.get_image}}"
+                 class="card-img-top" alt="{{category.name}}" style="height:250px; object-fit: contain;"/>
+            <div class="card-body" >
+              <span class="card-text fw-bold">{{ category.name }}</span>
             </div>
-          </div>
+          </a>
         </div>
-        </a>
       </div>
       {% endfor %}
     </div>
