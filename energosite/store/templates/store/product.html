@@ -4,6 +4,9 @@
 
 
 {% block breadcrumbs %}
+  {% for parent in product.category.parents %}
+    &rsaquo; <a href="{% url 'store:category_detail' parent.slug %}">{{ parent.name }}</a>
+  {% endfor %}
   &rsaquo; <a href="{% url 'store:category_detail' product.category.slug %}">{{ product.category.name }}</a>
   &rsaquo; <a href="{% url 'store:product_detail' product.category.slug product.slug %}">{{ product.name }}</a>
 {% endblock %}
