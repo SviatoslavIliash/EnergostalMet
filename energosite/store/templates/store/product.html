@@ -23,35 +23,47 @@
     max-width: 7em;
   }
 </style>
-<div class="container">
-    <h2>{{ product.name }}</h2>
+<div class="card" style="border: none">
+    <div class="row g-0">
+    <h3>{{ product.name }}</h3>
+    <div class="col-lg-6">
     <img class="resp_img" src="{{ product.get_image }}" align="left"/>
-    <h2>{{ product.price }} грн</h2>
-    {% if wholesale_prices %}
-        <h2>Оптові ціни</h2>
-        <ul>
-            {% for price in wholesale_prices %}
-                <li>
-                    <h3> від {{price.from_quantity}} {{price.price}} грн</h3>
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-    <ul>
-        {% for attr in attrs %}
-            <li>
-                <h3>{{ attr }} </h3>
-            </li>
-        {% endfor %}
-    </ul>
-    <h2>Опис</h2>
-    <h3>{{ product.description }}</h3>
-</div>
-<form id="add_to_cart_form_{{product.id}}" class="cart_add_form" action="{% url 'cart:cart_add' product.slug %}" method="post">
+    </div>
+    <div class="col-lg-6">
+    <h3>{{ product.price }} грн</h3>
+        <form id="add_to_cart_form_{{product.id}}" class="cart_add_form" action="{% url 'cart:cart_add' product.slug %}" method="post">
     {{ cart_product_form }}
     {% csrf_token %}
     <input type="submit" value="Додати в кошик">
 </form>
+
+    {% if wholesale_prices %}
+    <div style="margin-top: 10px">
+        <h5>Оптові ціни:</h5>
+<!--        <ul>-->
+            {% for price in wholesale_prices %}
+<!--                <li>-->
+                    <h6> від {{price.from_quantity}} {{price.price}} грн</h6>
+<!--                </li>-->
+            {% endfor %}
+<!--        </ul>-->
+        </div>
+    {% endif %}
+        <ul class="list-group list-group">
+            {% for attr in attrs %}
+      <li class="list-group-item">  <h6>{{ attr }} </h6></li>
+
+        {% endfor %}
+
+        </ul>
+    </div>
+    </div>
+</div>
+  <div>
+    <h4>Опис</h4>
+    <h6>{{ product.description }}</h6>
+  </div>
+
 
     <!--<button type="button" class="btn btn-secondary">Add to Cart</button>-->
 
