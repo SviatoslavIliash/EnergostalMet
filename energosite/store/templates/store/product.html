@@ -1,7 +1,10 @@
 {% extends 'store/base.html' %}
 
-{% block title%}{{ product.name }}{% endblock%}
+{% block title %}{{ product.name }}{% endblock %}
 
+{% block meta %}
+  {% include 'store/meta_tags.html' with item=product %}
+{% endblock %}
 
 {% block breadcrumbs %}
   {% for parent in product.category.parents %}

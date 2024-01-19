@@ -22,7 +22,15 @@ def default_wholesale_price(price):
     return obj
 
 
-class Category(models.Model):
+class SeoFieldsModel(models.Model):
+    meta_keywords = models.CharField(max_length=100, verbose_name="Мета-тег Ключові слова", null=True, blank=True)
+    meta_description = models.CharField(max_length=250, verbose_name="Мета-тег Опис", null=True, blank=True)
+
+    class Meta:
+        abstract = True
+
+
+class Category(SeoFieldsModel):
     name = models.CharField(max_length=30, unique=True, verbose_name="Назва")
     parent = models.ForeignKey("self", related_name='children', null=True, blank=True, on_delete=models.CASCADE, verbose_name="Батьківська категорія")
     description = models.CharField(max_length=250, default='', blank=True, verbose_name="Опис")
@@ -54,7 +62,6 @@ class Category(models.Model):
     def is_super_category(self):
         return self.parent is None
 
-
     def parents(self):
         res = []
         while self.parent:
@@ -64,7 +71,7 @@ class Category(models.Model):
         return res
 
 
-class Product(models.Model):
+class Product(SeoFieldsModel):
     name = models.CharField(max_length=30, unique=True, verbose_name="Назва")
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="Категорія")
     price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name="Ціна")
@@ -120,7 +127,7 @@ class ProductAttrs(models.Model):
         return self.attribute.name + " = " + self.value
 
 
-class Article(models.Model):
+class Article(SeoFieldsModel):
     name = models.CharField(max_length=30, unique=True, verbose_name="Назва")
     text = models.TextField(verbose_name="Текст")
     in_top_navbar = models.BooleanField(default=False, verbose_name="Показувати в верхній навігації")
@@ -145,7 +152,7 @@ class WholesalePrice(models.Model):
         verbose_name_plural = "Оптові ціни"
 
 
-class CompanyInfo(models.Model):
+class CompanyInfo(SeoFieldsModel):
     name = models.CharField(max_length=30, verbose_name="Назва")
     email = models.EmailField(max_length=50, verbose_name="Email")
 
@@ -170,10 +177,12 @@ class CompanyInfo(models.Model):
 class PhoneNumber(models.Model):
     company = models.ForeignKey(CompanyInfo, related_name="phone_numbers", on_delete=models.CASCADE)
     phone_regex = RegexValidator(regex=r'^(\+38)?0\d{9}$')
-    phone_number = models.CharField(validators=[phone_regex], max_length=13, blank=False, verbose_name="Телефон")
+    phone_number = models.CharField(validators=[phone_regex], max_length=13, blank=False, verbose_name="Телефонний номер")
 
     class Meta:
         verbose_name = "Телефонний номер"
         verbose_name_plural = "Телефонні номери"
 
+    def __str__(self):
+        return ""
 

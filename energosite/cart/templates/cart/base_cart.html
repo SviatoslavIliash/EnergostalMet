@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="{% static 'cart/css/cart.css' %}">
     <title>{% block title%}{% endblock%}</title>
+    {% block meta %}
+    {% endblock %}
   </head>
   <body class="text-center text-bg-white" style="height:100%; min-height: 100vh; justify-content: space-between; display:flex; flex-direction: column;">
     <div class="cover-container d-flex w-100 h-100 mx-auto flex-column">
@@ -34,7 +36,7 @@
                 </div>
                 <div class="col-10">
                   {% for phone_number in phone_numbers %}
-                  <h5>{{ phone_number }}</h5>
+                  <h5>{{ phone_number.phone_number }}</h5>
                   {% endfor %}
                 </div>
               </div>

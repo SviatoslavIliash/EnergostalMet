@@ -3,13 +3,16 @@ from django.contrib import admin
 from .models import Category, Product, Attribute, ProductAttrs, Article, WholesalePrice, CompanyInfo, PhoneNumber
 # Register your models here.
 
+
 class ProductAttrsInline(admin.TabularInline):
     model = ProductAttrs
     extra = 1
 
+
 class WholesalePriceInline(admin.TabularInline):
     model = WholesalePrice
     extra = 2
+
 
 class ProductAdmin(admin.ModelAdmin):
     inlines = [
@@ -22,6 +25,22 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ["name"]}
     save_as = True
 
+    fieldsets = [
+        (
+            None,
+            {
+                "fields": ["name", "category", "price", "image", "description", "slug"]
+
+            }
+        ),
+        (
+            "Мета-теги",
+            {
+                "fields": ["meta_keywords", "meta_description"]
+            }
+        )
+    ]
+
 
 class CategoryInline(admin.StackedInline):
     model = Category
@@ -31,6 +50,7 @@ class CategoryInline(admin.StackedInline):
     extra = 0
     fields = ["name"]
     can_delete = False
+
 
 class CategoryAdmin(admin.ModelAdmin):
     search_fields = ["name"]
@@ -42,10 +62,41 @@ class CategoryAdmin(admin.ModelAdmin):
 
     prepopulated_fields = {"slug": ["name"]}
 
+    fieldsets = [
+        (
+            None,
+            {
+                "fields": ["name", "parent", "description", "image", "slug"]
+            }
+        ),
+        (
+            "Мета-теги",
+            {
+                "fields": ["meta_keywords", "meta_description"]
+            }
+        )
+    ]
+
 
 class ArticleAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ["name"]}
     save_as = True
+
+    fieldsets = [
+        (
+            None,
+            {
+                "fields": ["name", "text", "in_top_navbar", "in_footer", "slug"]
+
+            }
+        ),
+        (
+            "Мета-теги",
+            {
+                "fields": ["meta_keywords", "meta_description"]
+            }
+        )
+    ]
 
 
 class PhoneNumberInline(admin.TabularInline):
@@ -55,6 +106,22 @@ class PhoneNumberInline(admin.TabularInline):
 
 class CompanyInfoAdmin(admin.ModelAdmin):
     inlines = [PhoneNumberInline]
+
+    fieldsets = [
+        (
+            None,
+            {
+                "fields": ["name", "email"]
+
+            }
+        ),
+        (
+            "Мета-теги",
+            {
+                "fields": ["meta_keywords", "meta_description"]
+            }
+        )
+    ]
 
 
 admin.site.register(Category, CategoryAdmin)
