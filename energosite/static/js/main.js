@@ -36,10 +36,9 @@ function nav_height_changer(){
     let sidebar_menu = document.getElementById("sidebarMenu");
     let main_block = document.getElementById("main-block");
 
-    sidebar_menu.style["margin-top"] = top_navbar_height.toString() + "px";
-    main_block.style["margin-top"] = top_navbar_height.toString() + "px";
-    main_block_style = getComputedStyle(main_block);
-
+    let top_navbar_height_px = top_navbar_height.toString() + "px";
+    sidebar_menu.style["margin-top"] = top_navbar_height_px;
+    main_block.style["margin-top"] = top_navbar_height_px;
 }
 
 function str_to_bool(str){
