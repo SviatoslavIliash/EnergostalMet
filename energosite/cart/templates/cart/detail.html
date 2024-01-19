@@ -21,7 +21,8 @@
   .resp_img {
     width: 100%;
     max-width: 200px;
-    height: auto;
+    height: 200px;
+    object-fit: contain;
   }
   .input_quantity{
     width: 100%;
@@ -65,7 +66,7 @@
     <div class="col-sm-4 col-3">
       <a href="{% url 'store:product_detail' product.category.slug product.slug %}">
         <img src="{{ product.get_image }}"
-             class="resp_img" alt="{{product.name}}" style="object-fit: contain;"/>
+             class="resp_img" alt="{{product.name}}"/>
       </a>
     </div>
     <div class="col-sm-8 col-9">
