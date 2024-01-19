@@ -92,7 +92,12 @@
           {% block nav-breadcrumbs %}
           <nav aria-label="Breadcrumbs">
             <div class="breadcrumbs text-start">
-              <a href="{% url 'store:index' %}">Home</a>
+              <a href="{% url 'store:index' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="black" class="bi bi-house-fill" viewBox="0 0 16 16">
+                  <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z"/>
+                  <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293z"/>
+                </svg>
+              </a>
               {% block breadcrumbs %} {% endblock %}
             </div>
           </nav>
@@ -104,11 +109,22 @@
       </main>
     </div>
     <!-- Footer -->
-    <footer class="bg-secondary">
-      <div class="container">
-        <p>Contact Us: energo-met@gmail.com</p>
-        <p>Copyright by Iliash LTD 2000-2024</p>
-      </div>
+<!--      <div class="container w-100">-->
+    <footer class="py-1 my-1" style="background-color: rgba(0, 0, 0, 0.05);">
+      <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+        <li class="nav-item"><a href="{% url 'store:index' %}" class="nav-link px-2 text-muted">Головна</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Прайс</a></li>
+        {% for article in footer_articles %}
+        <li class="nav_item">
+          <a class="nav-link px-2 text-muted" href="{% url 'store:article' article.slug %}">
+            <span class="d-none d-sm-inline">{{ article.name }}</span>
+          </a>
+        </li>
+        {% endfor %}
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Контакти</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
+      </ul>
+      <p class="text-center text-muted">&copy; 2000-2024 Energostal-met, LLC</p>
     </footer>
   </body>
 </html>
