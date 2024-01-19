@@ -30,18 +30,18 @@
     <div class="row g-0">
     <h3>{{ product.name }}</h3>
     <div class="col-lg-6">
-    <img class="resp_img" src="{{ product.get_image }}" align="left"/>
+    <img class="resp_img mx-auto" src="{{ product.get_image }}"/>
     </div>
     <div class="col-lg-6">
     <h3>{{ product.price }} грн</h3>
         <form id="add_to_cart_form_{{product.id}}" class="cart_add_form" action="{% url 'cart:cart_add' product.slug %}" method="post">
     {{ cart_product_form }}
     {% csrf_token %}
-    <input type="submit" value="Додати в кошик">
+    <input class="mt-1" type="submit" value="Додати в кошик">
 </form>
 
     {% if wholesale_prices %}
-    <div style="margin-top: 10px">
+    <div class="my-2">
         <h5>Оптові ціни:</h5>
 <!--        <ul>-->
             {% for price in wholesale_prices %}
@@ -52,7 +52,7 @@
 <!--        </ul>-->
         </div>
     {% endif %}
-        <ul class="list-group list-group">
+        <ul class="list-group list-group my-2">
             {% for attr in attrs %}
       <li class="list-group-item">  <h6>{{ attr }} </h6></li>
 
