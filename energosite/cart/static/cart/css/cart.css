@@ -1,0 +1,55 @@
+/*CSS file for cart*/
+@media (min-width: 991.98px) {
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 600,
+  'GRAD' 0,
+  'opsz' 40
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-color: #96D4D4;
+}
+
+.resp_img {
+  width: 100%;
+  max-width: 200px;
+  height: 200px;
+  object-fit: contain;
+}
+
+.input_quantity{
+  width: 100%;
+  max-width: 5em;
+}
+.remove_btn {
+  cursor: pointer;
+}
+
+.card:hover{
+  background-color: lightgrey;
+}
+
+a:link {
+  color: black;
+  text-decoration: none;
+}
+
+a:visited {
+  color: black;
+  text-decoration: none;
+}
+
+a:hover {
+  color: black;
+  text-decoration: none;
+}
+
+a:active {
+  color: black;
+  text-decoration: underline;
+}

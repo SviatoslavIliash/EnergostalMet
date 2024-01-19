@@ -117,12 +117,10 @@
         {% for article in footer_articles %}
         <li class="nav_item">
           <a class="nav-link px-2 text-muted" href="{% url 'store:article' article.slug %}">
-            <span class="d-none d-sm-inline">{{ article.name }}</span>
+            {{ article.name }}
           </a>
         </li>
         {% endfor %}
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Контакти</a></li>
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
       </ul>
       <p class="text-center text-muted">&copy; 2000-2024 Energostal-met, LLC</p>
     </footer>
