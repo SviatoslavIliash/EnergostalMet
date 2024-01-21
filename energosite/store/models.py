@@ -74,7 +74,7 @@ class Category(SeoFieldsModel):
 class Product(SeoFieldsModel):
     name = models.CharField(max_length=30, unique=True, verbose_name="Назва")
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="Категорія")
-    price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name="Ціна")
+    price = models.DecimalField(null=True, max_digits=8, decimal_places=2, blank=True, verbose_name="Ціна")
     attributes = models.ManyToManyField("Attribute", through="ProductAttrs")
     image = models.ImageField(upload_to='images/', null=True, blank=True, verbose_name="Зображення")
     description = models.CharField(max_length=250, default='', blank=True, verbose_name="Опис")

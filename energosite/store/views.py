@@ -47,6 +47,9 @@ def product_detail(request, category_slug, product_slug):
     attributes = ProductAttrs.objects.filter(product=product)
     wholesale_prices = WholesalePrice.objects.filter(product=product).all()
     cart_product_form = CartAddProductForm()
+
+    if product.price is None:
+        product.price = 'під замовлення'
     context = {"product": product, "attrs": attributes, "cart_product_form": cart_product_form,
                "wholesale_prices": wholesale_prices}
     return render(request, "store/product.html", context)

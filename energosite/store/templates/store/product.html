@@ -32,13 +32,18 @@
     <div class="col-lg-6">
     <img class="resp_img mx-auto" src="{{ product.get_image }}"/>
     </div>
-    <div class="col-lg-6">
-    <h3>{{ product.price }} грн</h3>
+    <div class="col-lg-6 my-auto">
+        {% if product.price == 'під замовлення' %}
+<!--          <div class="card my-0">-->
+            <h3><span class="badge bg-success">{{ product.price }}</span></h3>
+<!--          </div>-->
+        {% else %}
+          <h3>{{ product.price }} грн</h3>
         <form id="add_to_cart_form_{{product.id}}" class="cart_add_form" action="{% url 'cart:cart_add' product.slug %}" method="post">
-    {{ cart_product_form }}
-    {% csrf_token %}
-    <input class="mt-1" type="submit" value="Додати в кошик">
-</form>
+          {{ cart_product_form }}
+          {% csrf_token %}
+          <input class="mt-1" type="submit" value="Додати в кошик">
+        </form>
 
     {% if wholesale_prices %}
     <div class="my-2">
@@ -51,6 +56,7 @@
             {% endfor %}
 <!--        </ul>-->
         </div>
+    {% endif %}
     {% endif %}
         <ul class="list-group list-group my-2">
             {% for attr in attrs %}
