@@ -25,21 +25,24 @@
         <div class="row">
           <div class="col-sm-5 col-12">
             <a href="{% url 'store:product_detail' product.category.slug product.slug %}">
-              <span>{{ product.name }}</span>
+              <span>{{ product.name }} | {{item.packaging}}{{item.unit}}</span>
             </a>
           </div>
           <div class="col-sm-3 col-12">
             <span class="card_price">{{ item.price }} грн</span>
           </div>
           <div class="col-sm-3 col-8">
-            <form id="cart_update_for_{{product.id}}" class="cart_update_form" action="{% url 'cart:cart_add' product.slug %}" method="post">
+            <form id="cart_update_for_{{product.id}}_{{item.packaging}}" data-pack={{item.packaging}} class="cart_update_form" action="{% url 'cart:cart_add' product.slug %}" method="post">
               {{ item.update_quantity_form }}
               {% csrf_token %}
             </form>
           </div>
           <div class="col-sm-1 col-4">
             <span id="cart_remove_{{product.id}}" class="material-symbols-outlined remove_btn"
-                  data-url="{% url 'cart:cart_remove' product.slug %}">delete</span>
+                  data-pack={{item.packaging}} data-url="{% url 'cart:cart_remove' product.slug %}">
+              delete
+            </span>
+            {% csrf_token %}
           </div>
         </div>
       </div>

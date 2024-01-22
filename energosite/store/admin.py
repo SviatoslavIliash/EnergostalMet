@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Category, Product, Attribute, ProductAttrs, Article, WholesalePrice, CompanyInfo, PhoneNumber
+from .models import Category, Product, Attribute, ProductAttrs, Article, WholesalePrice, CompanyInfo, PhoneNumber, Packaging, UnitOfMeasurements
 # Register your models here.
 
 
@@ -9,15 +9,15 @@ class ProductAttrsInline(admin.TabularInline):
     extra = 1
 
 
-class WholesalePriceInline(admin.TabularInline):
-    model = WholesalePrice
-    extra = 2
+class PackagingInline(admin.TabularInline):
+    model = Packaging
+    extra = 1
 
 
 class ProductAdmin(admin.ModelAdmin):
     inlines = [
         ProductAttrsInline,
-        WholesalePriceInline
+        PackagingInline
     ]
     list_filter = [("category", admin.RelatedOnlyFieldListFilter)]
     search_fields = ["name", "category__name"]
@@ -29,7 +29,7 @@ class ProductAdmin(admin.ModelAdmin):
         (
             None,
             {
-                "fields": ["name", "category", "price", "image", "description", "slug"]
+                "fields": ["name", "category", "price", "unit_of_measurement", "packaging", "image", "description", "slug"]
 
             }
         ),
@@ -104,8 +104,14 @@ class PhoneNumberInline(admin.TabularInline):
     extra = 1
 
 
+class WholesalePriceInline(admin.TabularInline):
+    model = WholesalePrice
+    extra = 2
+
+
 class CompanyInfoAdmin(admin.ModelAdmin):
-    inlines = [PhoneNumberInline]
+    inlines = [PhoneNumberInline,
+               WholesalePriceInline]
 
     fieldsets = [
         (
@@ -129,3 +135,4 @@ admin.site.register(Product, ProductAdmin)
 admin.site.register(Attribute)
 admin.site.register(Article, ArticleAdmin)
 admin.site.register(CompanyInfo, CompanyInfoAdmin)
+admin.site.register(UnitOfMeasurements)

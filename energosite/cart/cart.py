@@ -2,6 +2,17 @@ from decimal import Decimal
 from django.conf import settings
 from store.models import Product
 
+ID_DELIMITER = '|'
+
+
+def get_id(product, mult):
+    return str(product.id) + ID_DELIMITER + str(mult) + ID_DELIMITER + product.unit_of_measurement.unit
+
+
+def get_id_components(item_id):
+    id_parts = item_id.split(ID_DELIMITER)
+    return id_parts[0], id_parts[1], id_parts[2]
+
 
 class Cart(object):
     def __init__(self, request):
@@ -11,55 +22,41 @@ class Cart(object):
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
 
-    def add(self, product, quantity=1, update_quantity=False):
-        product_id = str(product.id)
-        '''if product_id not in self.cart:
-            self.cart[product_id] = {'quantity': 0,
-                                     'price': str(product.price)}
-        if update_quantity:
-            self.cart[product_id]['quantity'] = quantity
-        else:
-            self.cart[product_id]['quantity'] += quantity'''
-        res_quantity = quantity
-        #price = product.price
-
+    def add(self, product, price, quantity=1, update_quantity=False, mult=1):
+        product_id = get_id(product, mult)
+        price_per_pack = price * mult
         if product_id not in self.cart:
-            price = product.get_price(quantity)
-            self.cart[product_id] = {'quantity': quantity, 'price': str(price)}
+            self.cart[product_id] = {'quantity': quantity, 'price': str(price_per_pack)}
         elif update_quantity:
-            price = product.get_price(quantity)
             self.cart[product_id]['quantity'] = quantity
-            self.cart[product_id]['price'] = str(price)
         else:
             self.cart[product_id]['quantity'] += quantity
-            res_quantity = self.cart[product_id]['quantity']
-            price = product.get_price(res_quantity)
-            self.cart[product_id]['price'] = str(price)
 
         self.save()
-
-        return res_quantity, price
 
     def save(self):
         self.session[settings.CART_SESSION_ID] = self.cart
         self.session.modified = True
 
-    def remove(self, product):
-        product_id = str(product.id)
+    def remove(self, product, mult):
+        product_id = get_id(product, mult)
         if product_id in self.cart:
             del self.cart[product_id]
             self.save()
 
-
     def __iter__(self):
-        product_ids = self.cart.keys()
-        products = Product.objects.filter(id__in=product_ids)
-        for product in products:
-            self.cart[str(product.id)]['product'] = product
+        for item_id in self.cart:
+            p_id, pack, unit = get_id_components(item_id)
+            product = Product.objects.get(pk=p_id)
 
-        for item in self.cart.values():
+            item = self.cart[item_id]
+
+            item['product'] = product
+            item['packaging'] = pack
+            item['unit'] = unit
             item['price'] = Decimal(item['price'])
             item['total_price'] = item['price'] * item['quantity']
+
             yield item
 
     def __len__(self):

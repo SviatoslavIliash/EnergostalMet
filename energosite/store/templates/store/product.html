@@ -34,36 +34,47 @@
     </div>
     <div class="col-lg-6 my-auto">
         {% if product.price == 'під замовлення' %}
-<!--          <div class="card my-0">-->
-            <h3><span class="badge bg-success">{{ product.price }}</span></h3>
-<!--          </div>-->
+          <h3><span class="badge bg-success">{{ product.price }}</span></h3>
         {% else %}
-          <h3>{{ product.price }} грн</h3>
-        <form id="add_to_cart_form_{{product.id}}" class="cart_add_form" action="{% url 'cart:cart_add' product.slug %}" method="post">
-          {{ cart_product_form }}
-          {% csrf_token %}
-          <input class="mt-1" type="submit" value="Додати в кошик">
-        </form>
-
-    {% if wholesale_prices %}
-    <div class="my-2">
-        <h5>Оптові ціни:</h5>
-<!--        <ul>-->
-            {% for price in wholesale_prices %}
-<!--                <li>-->
-                    <h6> від {{price.from_quantity}} {{price.price}} грн</h6>
-<!--                </li>-->
+          {% if product.packaging %}
+            <div class="row g-0">
+              <div class="col-8">
+          {% endif %}
+          <h3 id="product_price">{{ product.price }} грн</h3>
+          <form id="add_to_cart_form_{{product.id}}" class="cart_add_form" action="{% url 'cart:cart_add' product.slug %}" method="post">
+            {{ cart_product_form }}
+            {% csrf_token %}
+            <input class="mt-1" type="submit" value="Додати в кошик">
+          </form>
+          {% if product.packaging %}
+          </div>
+          <div class="col-4">
+            <div class="form-check text-start">
+              <input class="form-check-input" type="radio" name="radioPackaging" data-mult={{product.packaging}} data-price={{product.price}} id="radioPackagingDefault" checked>
+              <label class="form-check-label" for="radioPackagingDefault">
+                {{product.packaging}} {{product.unit_of_measurement.unit}}
+              </label>
+            </div>
+            {% for pack in product.alt_packaging.all %}
+              <div class="form-check text-start">
+                <input class="form-check-input" type="radio" name="radioPackaging" data-mult={{pack.packaging}} data-price={{pack.price}} id="{{pack.pk}}">
+                <label class="form-check-label" for="{{pack.pk}}">
+                  {% if pack.pretty_name %}
+                    {{pack.pretty_name}}
+                  {% else %}
+                    {{pack.packaging}} {{product.unit_of_measurement.unit}}
+                  {% endif %}
+                </label>
+              </div>
             {% endfor %}
-<!--        </ul>-->
-        </div>
-    {% endif %}
-    {% endif %}
+            </div>
+          </div>
+          {% endif%}
+        {% endif %}
         <ul class="list-group list-group my-2">
-            {% for attr in attrs %}
-      <li class="list-group-item">  <h6>{{ attr }} </h6></li>
-
-        {% endfor %}
-
+          {% for attr in attrs %}
+            <li class="list-group-item">  <h6>{{ attr }} </h6></li>
+          {% endfor %}
         </ul>
     </div>
     </div>

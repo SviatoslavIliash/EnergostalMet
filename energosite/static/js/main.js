@@ -26,6 +26,12 @@ $(document).ready(function(){
         }
     });
 
+    $(".form-check-input").on('change', (e) => {
+        if(e.target.checked){
+            update_price("product_price", e.target.getAttribute("data-price"))
+        }
+    });
+
     nav_height_changer()
 })
 
@@ -37,8 +43,13 @@ function nav_height_changer(){
     let main_block = document.getElementById("main-block");
 
     let top_navbar_height_px = top_navbar_height.toString() + "px";
-    sidebar_menu.style["margin-top"] = top_navbar_height_px;
-    main_block.style["margin-top"] = top_navbar_height_px;
+    // following if blocks needed as in Cart we don't have side bar and main block
+    if (sidebar_menu){
+        sidebar_menu.style["margin-top"] = top_navbar_height_px;
+    }
+    if (main_block){
+        main_block.style["margin-top"] = top_navbar_height_px;
+    }
 }
 
 function str_to_bool(str){
@@ -70,26 +81,56 @@ function update_quantity(target_input){
 }
 
 
-function update_in_cart(target){
-    add_to_cart_inline(target, update_cart)
-}
-
-function add_to_cart(target){
-    add_to_cart_inline(target, update_nav)
-    tempAlert("Товар додано у кошик!",3000);
-}
-
-function add_to_cart_inline(form, after_func){
+function update_in_cart(form){
     const url  = form.getAttribute("action")
     const form_data = $(form).serialize()
-    $.post(url, form_data, function(data){
-        after_func(data, form)
+    multiplier = form.getAttribute("data-pack")
+    let data_to_send = form_data + "&multiplier=" + multiplier
+    console.log(data_to_send)
+    $.post(url, data_to_send, function(data){
+        update_cart(data, form)
     })
+}
+
+function add_to_cart(form){
+    let price = null
+    let multiplier = null
+
+    const radioButtons = document.querySelectorAll('input[name="radioPackaging"]');
+    for (const radioButton of radioButtons) {
+        if (radioButton.checked){
+            price = radioButton.getAttribute("data-price")
+            multiplier = radioButton.getAttribute("data-mult")
+        }
+    }
+
+    const url  = form.getAttribute("action")
+    const form_data = $(form).serialize()
+    let data_to_send = form_data
+
+    if (price){
+        data_to_send += "&price=" + price
+    }
+    if (multiplier){
+        data_to_send += "&multiplier=" + multiplier
+    }
+
+    $.post(url, data_to_send, function(data){
+        update_nav(data)
+    })
+    tempAlert("Товар додано у кошик!",3000);
 }
 
 function remove_from_cart(button, url){
     if (confirm("Видалити товар з кошика?")) {
-        $.get(url, function(data){
+        let mult = button.getAttribute("data-pack")
+        let data_to_send = "multiplier=" + mult
+
+        let div = button.closest("div")
+        let token_input = div.getElementsByTagName("input")[0]
+        data_to_send += "&" + token_input.name + "=" + token_input.value
+
+        $.post(url, data_to_send, function(data){
             update_cart(data, button)
 
         })
@@ -109,7 +150,7 @@ function update_cart_total_price(price){
     update_price("cart_total_price", price)
 }
 
-function update_nav(data, obj){
+function update_nav(data){
     update_nav_cart_price(data["Total"])
 }
 
@@ -121,9 +162,6 @@ function update_cart(data, obj){
     if ("Deleted" in data){
         is_deleted = true
     }
-    if ("Price" in data){
-        form_price = data["Price"]
-    }
 
     update_nav_cart_price(total_price)
     update_cart_total_price(total_price)
@@ -132,10 +170,7 @@ function update_cart(data, obj){
     if (is_deleted){
         card.remove()
     }
-    else{
-        var price_elem = card.getElementsByClassName("card_price")[0]
-        price_elem.textContent = form_price + " грн"
-    }
+
 }
 
 function tempAlert(msg,duration)

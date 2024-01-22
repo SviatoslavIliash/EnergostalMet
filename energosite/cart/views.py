@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
@@ -10,21 +11,30 @@ from .forms import CartAddProductForm
 def cart_add(request, product_slug):
     cart = Cart(request)
     product = get_object_or_404(Product, slug=product_slug)
+    price = product.price
     form = CartAddProductForm(request.POST)
+    if "price" in request.POST:
+        price = Decimal(request.POST["price"])
+    mult = 1
+    if "multiplier" in request.POST:
+        mult = int(request.POST["multiplier"])
     response = {}
     if form.is_valid():
         cd = form.cleaned_data
         upd = cd["update"]
-        quantity, price = cart.add(product=product, quantity=cd['quantity'], update_quantity=upd)
-        response["Price"] = price
+        cart.add(product=product, price=price, quantity=cd['quantity'], update_quantity=upd, mult=mult)
     response["Total"] = cart.get_total_price()
     return JsonResponse(response)
 
 
+@require_POST
 def cart_remove(request, product_slug):
     cart = Cart(request)
+    mult = 1
+    if "multiplier" in request.POST:
+        mult = int(request.POST["multiplier"])
     product = get_object_or_404(Product, slug=product_slug)
-    cart.remove(product)
+    cart.remove(product, mult)
     response = {"Total": cart.get_total_price(), "Deleted": True}
     return JsonResponse(response)
 
@@ -37,7 +47,6 @@ def cart_detail(request):
                                             'quantity': item['quantity'],
                                             'update': True
                                         })
-    # TODO check if we need to send cart in context here
-    # TODO cart is available in context_processors
+
     return render(request, 'cart/detail.html', {'cart': cart})
 

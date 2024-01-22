@@ -1,6 +1,5 @@
-from django.http import HttpResponse
 from django.shortcuts import render
-from .models import Category, Product, ProductAttrs, Article, WholesalePrice
+from .models import Category, Product, ProductAttrs, Article
 from cart.forms import CartAddProductForm
 
 categories_per_row = 3
@@ -17,6 +16,7 @@ def index(request):
     product_rows = [product_list[x:x + products_per_row] for x in range(0, len(product_list), products_per_row)]
     context = {"category_chunks": category_chunks, "product_rows": product_rows, "product_list": product_list}
     return render(request, "store/index.html", context)
+
 
 def article(request, article_slug):
     current_article = Article.objects.get(slug=article_slug)
@@ -45,13 +45,11 @@ def category_detail(request, category_slug):
 def product_detail(request, category_slug, product_slug):
     product = Product.objects.get(slug=product_slug)
     attributes = ProductAttrs.objects.filter(product=product)
-    wholesale_prices = WholesalePrice.objects.filter(product=product).all()
     cart_product_form = CartAddProductForm()
 
     if product.price is None:
         product.price = 'під замовлення'
-    context = {"product": product, "attrs": attributes, "cart_product_form": cart_product_form,
-               "wholesale_prices": wholesale_prices}
+    context = {"product": product, "attrs": attributes, "cart_product_form": cart_product_form}
     return render(request, "store/product.html", context)
 
 
