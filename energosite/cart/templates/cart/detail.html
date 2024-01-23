@@ -59,6 +59,25 @@
   <div class="col-6">
     <h5 id="cart_total_price">{{ cart.get_total_price }} грн</h5>
   </div>
+    </div>
+<div class="row align-items-center mt-3">
+  <div class="col-6">
+    <h5>Ваша знижка</h5>
+  </div>
+  <div class="col-6">
+    <h5 id="discount">{{ discount }} грн</h5>
+  </div>
+</div>
+<div class="row align-items-center mt-3">
+  <div class="col-6">
+    <h5>Сума зі знижкою</h5>
+  </div>
+  <div class="col-6">
+    <h5 id="discount_total_price">{{ discount_total_price }} грн</h5>
+  </div>
+</div>
+
+
 </div>
 <p class="text-right">
   <a href="{% url 'store:index' %}" class="btn"><button type="button" class="btn btn-secondary">Продовжити покупки</button></a>

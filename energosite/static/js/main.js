@@ -150,21 +150,33 @@ function update_cart_total_price(price){
     update_price("cart_total_price", price)
 }
 
+function update_discount_total_price(price){
+    update_price("discount_total_price", price)
+}
+
+function update_discount(price){
+    update_price("discount", price)
+}
+
 function update_nav(data){
-    update_nav_cart_price(data["Total"])
+    update_nav_cart_price(data["Nav_total"])
 }
 
 function update_cart(data, obj){
-    var total_price = data["Total"]
-    var form_price = 0
-    var is_deleted = false
+    let total_price = data["Total"]
+    let discount_total_price = data["Total_discount"]
+    let discount = data["Discount"]
+    let form_price = 0
+    let is_deleted = false
 
     if ("Deleted" in data){
         is_deleted = true
     }
 
-    update_nav_cart_price(total_price)
+    update_nav(data)
     update_cart_total_price(total_price)
+    update_discount_total_price(discount_total_price)
+    update_discount(discount)
 
     card = obj.closest(".card")
     if (is_deleted){

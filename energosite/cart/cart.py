@@ -1,6 +1,6 @@
 from decimal import Decimal
 from django.conf import settings
-from store.models import Product
+from store.models import Product, WholesalePrice
 
 ID_DELIMITER = '|'
 
@@ -68,3 +68,30 @@ class Cart(object):
     def clear(self):
         del self.session[settings.CART_SESSION_ID]
         self.session.modified = True
+
+    def total_price_discount(self, total_price=None):
+        if not total_price:
+            total_price = self.get_total_price()
+
+        wholesale_prices = (WholesalePrice.objects.all().order_by('percentage'))
+        discount_total_price = 0
+        discount = 0
+        for w_price in wholesale_prices:
+            if total_price >= w_price.from_sum:
+                discount = round(int(total_price) * (int(w_price.percentage) / 100), 2)
+                discount_total_price = int(total_price) - discount
+
+        return discount_total_price, discount
+
+    def get_discount_total_price(self, total_price=None):
+        d_total_price, d = self.total_price_discount(total_price)
+        return d_total_price
+
+    def get_nav_total_price(self, total_price=None):
+        if not total_price:
+            total_price = self.get_total_price()
+        discount_price = self.get_discount_total_price(total_price)
+        if discount_price == 0:
+            return total_price
+        else:
+            return discount_price

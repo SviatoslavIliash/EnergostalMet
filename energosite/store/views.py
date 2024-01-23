@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Category, Product, ProductAttrs, Article
+from .models import Category, Product, ProductAttrs, Article, WholesalePrice
 from cart.forms import CartAddProductForm
 
 categories_per_row = 3

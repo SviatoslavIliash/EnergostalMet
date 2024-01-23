@@ -1,10 +1,18 @@
 from decimal import Decimal
 from django.http import JsonResponse
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_POST
 from store.models import Product
 from .cart import Cart
 from .forms import CartAddProductForm
+
+
+def response_prices(cart):
+    total_price = cart.get_total_price()
+    total_price_d, d = cart.total_price_discount(total_price)
+    response = {"Total": total_price, "Total_discount": total_price_d,
+                "Discount": d, "Nav_total": cart.get_nav_total_price(total_price)}
+    return response
 
 
 @require_POST
@@ -18,12 +26,12 @@ def cart_add(request, product_slug):
     mult = 1
     if "multiplier" in request.POST:
         mult = int(request.POST["multiplier"])
-    response = {}
+
     if form.is_valid():
         cd = form.cleaned_data
         upd = cd["update"]
         cart.add(product=product, price=price, quantity=cd['quantity'], update_quantity=upd, mult=mult)
-    response["Total"] = cart.get_total_price()
+    response = response_prices(cart)
     return JsonResponse(response)
 
 
@@ -35,7 +43,8 @@ def cart_remove(request, product_slug):
         mult = int(request.POST["multiplier"])
     product = get_object_or_404(Product, slug=product_slug)
     cart.remove(product, mult)
-    response = {"Total": cart.get_total_price(), "Deleted": True}
+    response = response_prices(cart)
+    response["Deleted"] = True
     return JsonResponse(response)
 
 
@@ -48,5 +57,7 @@ def cart_detail(request):
                                             'update': True
                                         })
 
-    return render(request, 'cart/detail.html', {'cart': cart})
+    discount_total_price, discount = cart.total_price_discount()
 
+    return render(request, 'cart/detail.html',
+                  {'cart': cart, 'discount_total_price': discount_total_price, 'discount': discount})
