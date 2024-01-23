@@ -28,7 +28,11 @@ $(document).ready(function(){
 
     $(".form-check-input").on('change', (e) => {
         if(e.target.checked){
-            update_price("product_price", e.target.getAttribute("data-price"))
+            update_price(
+                "product_price",
+                e.target.getAttribute("data-price"),
+                "/" + e.target.getAttribute("data-unit") // suffix for price
+            )
         }
     });
 
@@ -137,9 +141,9 @@ function remove_from_cart(button, url){
     }
 }
 
-function update_price(elem_id, new_price){
+function update_price(elem_id, new_price, suffix=""){
     elem = document.getElementById(elem_id)
-    elem.textContent = new_price + " грн"
+    elem.textContent = new_price + " грн" + suffix
 }
 
 function update_nav_cart_price(price){
