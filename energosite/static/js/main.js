@@ -163,7 +163,7 @@ function update_discount(price){
 }
 
 function update_nav(data){
-    update_nav_cart_price(data["Nav_total"])
+    update_nav_cart_price(data["Total_discount"])
 }
 
 function update_cart(data, obj){

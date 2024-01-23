@@ -11,7 +11,7 @@ def response_prices(cart):
     total_price = cart.get_total_price()
     total_price_d, d = cart.total_price_discount(total_price)
     response = {"Total": total_price, "Total_discount": total_price_d,
-                "Discount": d, "Nav_total": cart.get_nav_total_price(total_price)}
+                "Discount": d}
     return response
 
 
