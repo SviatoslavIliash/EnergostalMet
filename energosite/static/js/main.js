@@ -127,12 +127,10 @@ function add_to_cart(form){
 
 function remove_from_cart(button, url){
     if (confirm("Видалити товар з кошика?")) {
-        let mult = button.getAttribute("data-pack")
-        let data_to_send = "multiplier=" + mult
-
-        let div = button.closest("div")
-        let token_input = div.getElementsByTagName("input")[0]
-        data_to_send += "&" + token_input.name + "=" + token_input.value
+        let form = button.closest("form")
+        let data_to_send = $(form).serialize()
+        let mult = form.getAttribute("data-pack")
+        data_to_send += "&" + "multiplier=" + mult
 
         $.post(url, data_to_send, function(data){
             update_cart(data, button)
