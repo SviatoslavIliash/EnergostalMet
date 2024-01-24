@@ -171,7 +171,7 @@ function update_cart(data, obj){
     let form_price = 0
     let is_deleted = false
 
-    if ("Deleted" in data){
+    if ("Deleted" in data && data["Deleted"]){
         is_deleted = true
     }
 
