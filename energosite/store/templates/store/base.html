@@ -64,15 +64,15 @@
             </div>
             <!-- Right links -->
             <ul class="navbar-nav ms-auto d-flex flex-row">
-              <li class="nav-item">
+              <li class="nav-item d-none d-sm-inline">
                 <a class="nav-link fw-bold py-1 px-2" href="{% url 'store:index' %}">
-                  <span class="d-none d-sm-inline">Головна</span>
+                  <span>Головна</span>
                 </a>
               </li>
               {% for article in top_articles %}
-              <li class="nav_item">
+              <li class="nav_item d-none d-sm-inline">
                 <a class="nav-link fw-bold py-1 px-2" href="{% url 'store:article' article.slug %}">
-                  <span class="d-none d-sm-inline">{{ article.name }}</span>
+                  <span>{{ article.name }}</span>
                 </a>
               </li>
               {% endfor %}
