@@ -10,17 +10,10 @@ from django.templatetags.static import static
 
 # Move this func to some util file
 def get_image_impl(obj):
-    if obj.image:
+    if obj.image and obj.image.storage.exists(obj.image.name):
         return obj.image.url
     else:
         return static('store/images/default_image.jpg')
-
-
-'''def default_wholesale_price(price):
-    obj = WholesalePrice()
-    obj.from_quantity = 0
-    obj.price = price
-    return obj'''
 
 
 class SeoFieldsModel(models.Model):
@@ -58,7 +51,6 @@ class Category(SeoFieldsModel):
             res += parent.name
             if index != parents_len - 1:
                 res += "->"
-        # res += self.name
         return res
 
     def is_super_category(self):
@@ -91,17 +83,6 @@ class Product(SeoFieldsModel):
 
     def get_image(self):
         return get_image_impl(self)
-
-    '''def get_price(self, quantity):
-        wholesale_prices = WholesalePrice.objects.filter(product=self).order_by('from_quantity')
-        res = self.price
-        for wp in wholesale_prices:
-            if quantity >= wp.from_quantity:
-                res = wp.price
-            elif quantity < wp.from_quantity:
-                break
-
-        return res'''
 
     def __str__(self):
         return self.name
