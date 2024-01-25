@@ -36,7 +36,10 @@
                 </div>
                 <div class="col-10">
                   {% for phone_number in phone_numbers %}
-                  <h5>{{ phone_number.phone_number }}</h5>
+                    <a class="d-inline d-md-none" href="tel:{{ phone_number.phone_number }}">
+                      <h5>{{ phone_number.phone_number }}</h5>
+                    </a>
+                    <h5 class="d-none d-md-inline">{{ phone_number.phone_number }}</h5>
                   {% endfor %}
                 </div>
               </div>

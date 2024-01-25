@@ -28,15 +28,16 @@
         <nav id="main-navbar" class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
         <!-- Container wrapper -->
           <div class="container-fluid">
-          <!-- Toggle button -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu"
-                    aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
             <!-- Brand-->
             <a class="navbar-brand" href="{% url 'store:index' %}">
               <img src="{% static 'store/images/logo__blue.svg' %}" height="50" alt="Logo" loading="lazy" />
             </a>
+            <!-- Toggle button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu"
+                    aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
               <!-- Search form
               <form class="d-none d-md-flex input-group w-auto my-auto">
               <input autocomplete="off" type="search" class="form-control rounded"
@@ -53,7 +54,10 @@
                 </div>
                 <div class="col-10">
                   {% for phone_number in phone_numbers %}
-                    <h5>{{ phone_number.phone_number }}</h5>
+                    <a class="d-inline d-md-none" href="tel:{{ phone_number.phone_number }}">
+                      <h5>{{ phone_number.phone_number }}</h5>
+                    </a>
+                    <h5 class="d-none d-md-inline">{{ phone_number.phone_number }}</h5>
                   {% endfor %}
                 </div>
               </div>
