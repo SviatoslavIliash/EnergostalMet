@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from .models import Category, Product, ProductAttrs, Article, WholesalePrice
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Category, Product, ProductAttrs, Article
 from cart.forms import CartAddProductForm
 
 categories_per_row = 3
@@ -19,7 +19,7 @@ def index(request):
 
 
 def article(request, article_slug):
-    current_article = Article.objects.get(slug=article_slug)
+    current_article = get_object_or_404(Article, slug=article_slug)
     context = {"current_article": current_article}
     return render(request, "store/article.html", context)
 
@@ -27,7 +27,7 @@ def article(request, article_slug):
 def category_detail(request, category_slug):
     product_chunks = []
     category_chunks = []
-    category = Category.objects.get(slug=category_slug)
+    category = get_object_or_404(Category, slug=category_slug)
     children = category.children.all()
     has_subcategories = False
     if children:
@@ -43,7 +43,7 @@ def category_detail(request, category_slug):
 
 
 def product_detail(request, category_slug, product_slug):
-    product = Product.objects.get(slug=product_slug)
+    product = get_object_or_404(Product, slug=product_slug)
     attributes = ProductAttrs.objects.filter(product=product)
     cart_product_form = CartAddProductForm()
 
