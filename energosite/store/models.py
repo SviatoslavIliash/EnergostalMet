@@ -158,6 +158,7 @@ class Article(SeoFieldsModel):
 class CompanyInfo(SeoFieldsModel):
     name = models.CharField(max_length=30, verbose_name="Назва")
     email = models.EmailField(max_length=50, verbose_name="Email")
+    catalog_PDF = models.FileField(upload_to='images/', null=True, verbose_name="Прайс")
 
     class Meta:
         verbose_name = "Компанія"
