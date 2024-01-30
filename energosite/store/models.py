@@ -8,12 +8,40 @@ from django.templatetags.static import static
 # Create your models here.
 
 
+DEFAULT_IMAGE_PATH = 'store/images/default_image.jpg'
+
+
 # Move this func to some util file
 def get_image_impl(obj):
-    if obj.image and obj.image.storage.exists(obj.image.name):
-        return obj.image.url
+    if obj.image:
+        return obj.image.get_image_or_default()
     else:
-        return static('store/images/default_image.jpg')
+        return static(DEFAULT_IMAGE_PATH)
+
+
+class ImageModel(models.Model):
+    image = models.ImageField(upload_to='images/', null=True, blank=True, verbose_name="Зображення (вибрати)")
+
+    class Meta:
+        verbose_name = "Зображення"
+        verbose_name_plural = "Зображення"
+
+    def image_tag(self):
+        from django.utils.html import escape
+        from django.utils.safestring import mark_safe
+        return mark_safe(u'<img src="%s" style="width:150px;height:150px;object-fit:contain;"/>'
+                         % escape(self.image.url))
+
+    image_tag.short_description = "Зображення"
+
+    def get_image_or_default(self):
+        if self.image and self.image.storage.exists(self.image.name):
+            return self.image.url
+        else:
+            return static(DEFAULT_IMAGE_PATH)
+
+    def __str__(self):
+        return self.image.name
 
 
 class SeoFieldsModel(models.Model):
@@ -29,7 +57,7 @@ class Category(SeoFieldsModel):
     parent = models.ForeignKey("self", related_name='children', null=True, blank=True, on_delete=models.CASCADE,
                                verbose_name="Батьківська категорія")
     description = models.CharField(max_length=250, default='', blank=True, verbose_name="Опис")
-    image = models.ImageField(upload_to='images/', null=True, blank=True, verbose_name="Зображення")
+    image = models.ForeignKey(ImageModel, null=True, blank=True, on_delete=models.SET_NULL, verbose_name="Зображення")
     slug = models.SlugField(null=False, default="", unique=True)
 
     class Meta:
@@ -73,7 +101,7 @@ class Product(SeoFieldsModel):
                                             verbose_name="Одиниці вимірювання")
     packaging = models.IntegerField(blank=True, null=True, verbose_name="Пакування")
     attributes = models.ManyToManyField("Attribute", through="ProductAttrs")
-    image = models.ImageField(upload_to='images/', null=True, blank=True, verbose_name="Зображення")
+    image = models.ForeignKey(ImageModel, null=True, blank=True, on_delete=models.SET_NULL, verbose_name="Зображення")
     description = models.CharField(max_length=250, default="", blank=True, verbose_name="Опис")
     slug = models.SlugField(null=False, default="", unique=True)
 

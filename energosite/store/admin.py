@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from .models import Category, Product, Attribute, ProductAttrs, Article, WholesalePrice, CompanyInfo, PhoneNumber, Packaging, UnitOfMeasurements
+from .models import Category, Product, Attribute, ProductAttrs, Article, WholesalePrice, CompanyInfo, PhoneNumber,\
+                    Packaging, UnitOfMeasurements, ImageModel
 # Register your models here.
 
 
@@ -130,9 +131,15 @@ class CompanyInfoAdmin(admin.ModelAdmin):
     ]
 
 
+class ImageModelAdmin(admin.ModelAdmin):
+    fields = ['image_tag', 'image']
+    readonly_fields = ['image_tag']
+
+
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Attribute)
 admin.site.register(Article, ArticleAdmin)
 admin.site.register(CompanyInfo, CompanyInfoAdmin)
 admin.site.register(UnitOfMeasurements)
+admin.site.register(ImageModel, ImageModelAdmin)
