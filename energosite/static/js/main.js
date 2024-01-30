@@ -1,5 +1,7 @@
 // onsubmit, onclick and oninput functions
 $(document).ready(function(){
+    nav_height_changer()
+
     $(".remove_btn").on("click", (e) => {
         url = e.target.getAttribute("data-url")
         remove_from_cart(e.target, url)
@@ -36,7 +38,6 @@ $(document).ready(function(){
         }
     });
 
-    nav_height_changer()
 })
 
 function nav_height_changer(){
