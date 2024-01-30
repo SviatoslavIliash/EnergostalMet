@@ -5,3 +5,13 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+/* default margins for main block and sidebar
+   javascript will update them with dynamic margins */
+#main-block {
+    margin-top: 100px;
+}
+
+#sidebarMenu {
+    margin-top: 100px;
+}
