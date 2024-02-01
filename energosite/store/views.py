@@ -8,8 +8,7 @@ categories_per_row = 3
 
 
 def index(request):
-    category_list = Category.objects.all()
-    super_category_list = list(filter(lambda c: c.is_super_category(), category_list))
+    super_category_list = Category.objects.filter(parent=None)
     category_rows = [super_category_list[x:x + categories_per_row]
                      for x in range(0, len(super_category_list), categories_per_row)]
     '''block for all products'''
