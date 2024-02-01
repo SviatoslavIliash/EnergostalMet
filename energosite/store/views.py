@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
+
+from cart.cart import Cart
 from .models import Category, Product, ProductAttrs, Article
 from cart.forms import CartAddProductForm
 
@@ -8,13 +10,13 @@ categories_per_row = 3
 def index(request):
     category_list = Category.objects.all()
     super_category_list = list(filter(lambda c: c.is_super_category(), category_list))
-    category_chunks = [super_category_list[x:x + categories_per_row]
-                       for x in range(0, len(super_category_list), categories_per_row)]
+    category_rows = [super_category_list[x:x + categories_per_row]
+                     for x in range(0, len(super_category_list), categories_per_row)]
     '''block for all products'''
     product_list = Product.objects.all()
     products_per_row = 3
     product_rows = [product_list[x:x + products_per_row] for x in range(0, len(product_list), products_per_row)]
-    context = {"category_chunks": category_chunks, "product_rows": product_rows, "product_list": product_list}
+    context = {"category_rows": category_rows, "product_rows": product_rows, "product_list": product_list}
     return render(request, "store/index.html", context)
 
 
@@ -25,20 +27,22 @@ def article(request, article_slug):
 
 
 def category_detail(request, category_slug):
-    product_chunks = []
-    category_chunks = []
+    category_rows = []
     category = get_object_or_404(Category, slug=category_slug)
+    categories = [category]
     children = category.children.all()
-    has_subcategories = False
     if children:
-        has_subcategories = True
-        category_chunks = [children[x:x+categories_per_row] for x in range(0, len(children), categories_per_row)]
-    else:
-        product_list = Product.objects.filter(category__name=category.name)
-        products_per_row = 3
-        product_chunks = [product_list[x:x + products_per_row] for x in range(0, len(product_list), products_per_row)]
-    context = {"product_chunks": product_chunks, "category": category,
-               "category_chunks": category_chunks, "has_subcategories": has_subcategories}
+        category_rows = [children[x:x+categories_per_row] for x in range(0, len(children), categories_per_row)]
+        categories.extend(category.all_children())
+
+    product_list = []
+    for c in categories:
+        product_list.extend(Product.objects.filter(category__name=c.name))
+
+    products_per_row = 3
+    product_rows = [product_list[x:x + products_per_row] for x in range(0, len(product_list), products_per_row)]
+    context = {"product_rows": product_rows, "category": category,
+               "category_rows": category_rows}
     return render(request, "store/category.html", context)
 
 
@@ -51,5 +55,6 @@ def product_detail(request, category_slug, product_slug):
         product.price = 'під замовлення'
     context = {"product": product, "attrs": attributes, "cart_product_form": cart_product_form}
     return render(request, "store/product.html", context)
+
 
 

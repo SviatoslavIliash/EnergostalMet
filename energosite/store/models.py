@@ -13,6 +13,7 @@ DEFAULT_IMAGE_PATH = 'store/images/default_image.jpg'
 
 # Move this func to some util file
 def get_image_impl(obj):
+
     if obj.image:
         return obj.image.get_image_or_default()
     else:
@@ -90,6 +91,14 @@ class Category(SeoFieldsModel):
             res.append(self.parent)
             self = self.parent
         res.reverse()
+        return res
+
+    def all_children(self):
+        res = []
+        if self.children:
+            res.extend(self.children.all())
+            for child in self.children.all():
+                res.extend(child.all_children())
         return res
 
 
