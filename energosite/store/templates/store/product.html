@@ -16,79 +16,56 @@
 
 {% block body %}
 <style>
-    .resp_img {
+  .resp_img {
     width: 100%;
     max-width: 500px;
     height: auto;
   }
-    .input_quantity{
+
+  .input_quantity{
     width: 100%;
     max-width: 7em;
   }
 </style>
 <div class="card" style="border: none">
-    <div class="row g-0">
+  <div class="row g-0">
     <h3>{{ product.name }}</h3>
     <div class="col-lg-6">
-    <img class="resp_img mx-auto" src="{{ product.get_image }}"/>
+      <img class="resp_img mx-auto" src="{{ product.get_image }}"/>
     </div>
     <div class="col-lg-6 my-auto">
-        {% if product.price == 'під замовлення' %}
-          <h3><span class="badge bg-success">{{ product.price }}</span></h3>
-        {% else %}
-          {% if product.packaging %}
-            <div class="row g-0">
-              <div class="col-8">
-          {% endif %}
-          <h3 id="product_price">{{ product.price }} грн/{{product.unit_of_measurement}}</h3>
-          <form id="add_to_cart_form_{{product.id}}" class="cart_add_form" action="{% url 'cart:cart_add' product.slug %}" method="post">
-            {{ cart_product_form }}
-            {% csrf_token %}
-            <input class="mt-1" type="submit" value="Додати в кошик">
-          </form>
-          {% if product.packaging %}
-          </div>
-          <div class="col-4">
-            <div class="form-check text-start">
-              <input class="form-check-input" type="radio" name="radioPackaging"
-                     data-mult={{product.packaging}} data-price={{product.price}}
-                     data-unit={{product.unit_of_measurement}} id="radioPackagingDefault" checked>
-              <label class="form-check-label" for="radioPackagingDefault">
-                {{product.packaging}} {{product.unit_of_measurement.unit}}
-              </label>
-            </div>
-            {% for pack in product.alt_packaging.all %}
-              <div class="form-check text-start">
-                <input class="form-check-input" type="radio" name="radioPackaging"
-                       data-mult={{pack.packaging}} data-price={{pack.price}}
-                       data-unit={{product.unit_of_measurement}} id="{{pack.pk}}">
-                <label class="form-check-label" for="{{pack.pk}}">
-                  {% if pack.pretty_name %}
-                    {{pack.pretty_name}}
-                  {% else %}
-                    {{pack.packaging}} {{product.unit_of_measurement.unit}}
-                  {% endif %}
-                </label>
-              </div>
-            {% endfor %}
-            </div>
-          </div>
-          {% endif%}
+      {% if product.price == 'під замовлення' %}
+        <h3><span class="badge bg-success">{{ product.price }}</span></h3>
+      {% else %}
+        {% if product.packaging %}
+          <div class="row g-0">
+            <div class="col-8">
         {% endif %}
-        <ul class="list-group list-group my-2">
-          {% for attr in attrs %}
-            <li class="list-group-item">  <h6>{{ attr }} </h6></li>
-          {% endfor %}
-        </ul>
+        <h3 id="product_price_{{product.slug}}">{{ product.price }} грн/{{product.unit_of_measurement}}</h3>
+        <form id="add_to_cart_form_{{product.slug}}" class="cart_add_form" data-slug="{{product.slug}}"
+              action="{% url 'cart:cart_add' product.slug %}" method="post">
+          {{ cart_product_form }}
+          {% csrf_token %}
+          <input class="mt-1 btn btn-primary" type="submit" value="Додати в кошик">
+        </form>
+        {% if product.packaging %}
+            </div>
+            <div class="col-4">
+              {% include 'store/packaging_buttons.html' %}
+            </div>
+          </div>
+        {% endif%}
+      {% endif %}
+      <ul class="list-group list-group my-2">
+        {% for attr in attrs %}
+          <li class="list-group-item">  <h6>{{ attr }} </h6></li>
+        {% endfor %}
+      </ul>
     </div>
-    </div>
-</div>
-  <div>
-    <h4>Опис</h4>
-    <h6>{{ product.description }}</h6>
   </div>
-
-
-    <!--<button type="button" class="btn btn-secondary">Add to Cart</button>-->
-
+</div>
+<div>
+  <h4>Опис</h4>
+  <h6>{{ product.description }}</h6>
+</div>
 {% endblock %}

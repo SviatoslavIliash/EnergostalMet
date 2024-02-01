@@ -1,6 +1,5 @@
 // onsubmit, onclick and oninput functions
 $(document).ready(function(){
-    nav_height_changer()
 
     $(".remove_btn").on("click", (e) => {
         url = e.target.getAttribute("data-url")
@@ -31,31 +30,15 @@ $(document).ready(function(){
     $(".form-check-input").on('change', (e) => {
         if(e.target.checked){
             update_price(
-                "product_price",
+                "product_price" + "_" + e.target.getAttribute("data-slug"),
                 e.target.getAttribute("data-price"),
                 "/" + e.target.getAttribute("data-unit") // suffix for price
             )
+
         }
     });
 
 })
-
-function nav_height_changer(){
-    let top_navbar = document.getElementById("main-navbar");
-    let top_navbar_height = $(top_navbar).outerHeight();
-
-    let sidebar_menu = document.getElementById("sidebarMenu");
-    let main_block = document.getElementById("main-block");
-
-    let top_navbar_height_px = top_navbar_height.toString() + "px";
-    // following if blocks needed as in Cart we don't have side bar and main block
-    if (sidebar_menu){
-        sidebar_menu.style["margin-top"] = top_navbar_height_px;
-    }
-    if (main_block){
-        main_block.style["margin-top"] = top_navbar_height_px;
-    }
-}
 
 function str_to_bool(str){
     if (str.toLowerCase() === "true"){
@@ -101,7 +84,9 @@ function add_to_cart(form){
     let price = null
     let multiplier = null
 
-    const radioButtons = document.querySelectorAll('input[name="radioPackaging"]');
+    let product_slug = form.getAttribute("data-slug");
+    let radio_name = "radioPackaging_" + product_slug;
+    const radioButtons = document.querySelectorAll(`input[name="${radio_name}"]`);
     for (const radioButton of radioButtons) {
         if (radioButton.checked){
             price = radioButton.getAttribute("data-price")

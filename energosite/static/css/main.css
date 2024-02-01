@@ -6,12 +6,26 @@ body {
   flex-direction: column;
 }
 
-/* default margins for main block and sidebar
-   javascript will update them with dynamic margins */
 #main-block {
     margin-top: 100px;
 }
 
-#sidebarMenu {
-    margin-top: 100px;
+.a-custom:link {
+  color: black;
+  text-decoration: none;
+}
+
+.a-custom:visited {
+  color: black;
+  text-decoration: none;
+}
+
+.a-custom:hover {
+  color: black;
+  text-decoration: none;
+}
+
+.a-custom:active {
+  color: black;
+  text-decoration: underline;
 }

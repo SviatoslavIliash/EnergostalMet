@@ -30,7 +30,14 @@ def cart_add(request, product_slug):
     if form.is_valid():
         cd = form.cleaned_data
         upd = cd["update"]
-        cart.add(product=product, price=price, quantity=cd['quantity'], update_quantity=upd, mult=mult)
+        quantity = cd['quantity']
+    else:
+        # default values
+        upd = False
+        quantity = 1
+
+    cart.add(product=product, price=price, quantity=quantity, update_quantity=upd, mult=mult)
+
     response = response_prices(cart)
     return JsonResponse(response)
 

@@ -1,28 +1,49 @@
 <section style="background-color: #eee;">
   <div class="container">
     {% for product_row in product_rows%}
-    <div class="row">
+      <div class="row">
         {% for product in product_row %}
           <div class="col-12 col-lg-4 my-1 d-flex align-items-stretch">
             <div class="card w-100">
             <a href="{% url 'store:product_detail' product.category.slug product.slug %}">
               <img src="{{ product.get_image }}"
                    class="card-img-top mx-auto" alt="{{product.name}}" style="height: 250px; object-fit:contain"/>
+            </a>
               <div class="card-body">
-                <div class="d-flex justify-content-between">
-                  <span class="card-text fw-bold ms-1">{{ product.name }}</span>
-                  {% if product.price %}
-                    <span class="card-text fw-bold">{{ product.price }} грн</span>
-                  {% else %}
-                    <span class="card-text fw-bold">під замовлення</span>
-                  {% endif %}
-                </div>
+                <a class="a-custom" href="{% url 'store:product_detail' product.category.slug product.slug %}">
+                  <div class="row g-0">
+                    <div class="col">
+                      <span class="card-text fw-bold ms-1">{{ product.name }}</span>
+                    </div>
+                  </div>
+                </a>
+                <hr class="hr" />
+                {% if not product.price %}
+                  <h5><span class="badge bg-success">під замовлення</span></h5>
+                {% else %}
+                  <div class="row g-0">
+                    {% if product.packaging %}
+                      <div class="col">
+                        {% include 'store/packaging_buttons.html' %}
+                      </div>
+                    {% endif %}
+                    <div class="col">
+                      <span class="card-text fw-bold mx-auto" id="product_price_{{product.slug}}">
+                        {{ product.price }} грн/{{product.unit_of_measurement}}
+                      </span>
+                      <form id="add_to_cart_form_{{product.slug}}" class="cart_add_form mx-auto" data-slug="{{product.slug}}"
+                            action="{% url 'cart:cart_add' product.slug %}" method="post">
+                        {% csrf_token %}
+                        <input class="mt-1 btn btn-primary btn-sm" type="submit" value="Додати в кошик">
+                      </form>
+                    </div>
+                  </div>
+                {% endif %}
               </div>
-             </a>
             </div>
           </div>
        {% endfor %}
-    </div>
+      </div>
     {% endfor %}
   </div>
 </section>

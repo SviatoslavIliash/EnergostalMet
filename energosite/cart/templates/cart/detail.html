@@ -24,7 +24,7 @@
       <div class="card-body">
         <div class="row">
           <div class="col-sm-5 col-12">
-            <a href="{% url 'store:product_detail' product.category.slug product.slug %}">
+            <a class="a-custom" href="{% url 'store:product_detail' product.category.slug product.slug %}">
               <span>{{ product.name }} | {{item.packaging}}{{item.unit}}</span>
             </a>
           </div>

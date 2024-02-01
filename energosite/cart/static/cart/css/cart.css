@@ -10,11 +10,6 @@
   'opsz' 40
 }
 
-table, th, td {
-  border: 1px solid black;
-  border-color: #96D4D4;
-}
-
 .resp_img {
   width: 100%;
   max-width: 200px;
@@ -34,22 +29,3 @@ table, th, td {
   background-color: lightgrey;
 }
 
-a:link {
-  color: black;
-  text-decoration: none;
-}
-
-a:visited {
-  color: black;
-  text-decoration: none;
-}
-
-a:hover {
-  color: black;
-  text-decoration: none;
-}
-
-a:active {
-  color: black;
-  text-decoration: underline;
-}
