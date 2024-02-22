@@ -29,3 +29,7 @@
   background-color: lightgrey;
 }
 
+.a-disabled{
+  pointer-events:none;
+  cursor: default;
+}

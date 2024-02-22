@@ -83,7 +83,11 @@
 
 </div>
 <p class="text-right">
-  <a href="{% url 'store:index' %}" class="btn"><button type="button" class="btn btn-secondary">Продовжити покупки</button></a>
-  <a href="#"> <button type="button" class="btn btn-success">Оформити замовлення</button></a>
-</p>
+  <a href="{% url 'store:index' %}" class="btn btn-secondary" type="button">Продовжити покупки</a>
+  {% if cart.cart %}
+  <a href="{% url 'store:checkout' %}" type="button" id="btn-checkout" data-index="{% url 'store:index'%}" class="btn btn-success">Оформити замовлення</a>
+  {% else %}
+  <a type="button" class="btn btn-success a-disabled">Оформити замовлення</a>
+  {% endif %}
+</p> <!--TODO Check if has products in cart-->
 {% endblock %}

@@ -5,9 +5,33 @@ body {
   display: flex;
   flex-direction: column;
 }
+@media (max-width: 768px) {
 
-#main-block {
+  #main-block {
+    margin-top: 160px;
+  }
+
+}
+
+@media (min-width: 768px) {
+
+  #main-block {
     margin-top: 100px;
+  }
+
+}
+
+.company-name {
+  color: #ebb734;
+  font: italic 1.2rem 'Fira Sans', serif;
+}
+
+@media (min-width: 600px) {
+
+  .company-name {
+    font-size: 2.2rem;
+  }
+
 }
 
 .a-custom:link {

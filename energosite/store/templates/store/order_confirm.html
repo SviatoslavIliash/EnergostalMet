@@ -1,0 +1,18 @@
+{% extends "cart/base_cart.html" %}
+
+{% block title %}Замовлення оформлено{% endblock %}
+
+{% block meta %}{% include 'store/meta_tags.html' with item=company %}{% endblock %}
+
+{% block body %}
+<!---->
+  <div class="col-12" style="max-height:500px">
+    <div class="card mb-1">
+      <div class="card-body " style="text-align: center;">
+        <h3>Ваше замовлення номер {{order_number}} оформлено</h3><hr/>
+        <h3>Дякуємо за довіру!</h3>
+      </div>
+    </div>
+  </div>
+<a href="{% url 'store:index' %}" class="btn btn-success" type="button">Продовжити покупки</a>
+{% endblock %}

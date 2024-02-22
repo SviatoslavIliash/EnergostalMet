@@ -151,6 +151,14 @@ function update_nav(data){
 }
 
 function update_cart(data, obj){
+    let btn = document.getElementById("btn-checkout")
+    if ("Empty" in data && data["Empty"]){
+        btn.removeAttribute("href")
+        btn.classList.add("a-disabled")
+        window.location.replace(btn.getAttribute("data-index"))
+        return;
+    }
+
     let total_price = data["Total"]
     let discount_total_price = data["Total_discount"]
     let discount = data["Discount"]
@@ -165,6 +173,7 @@ function update_cart(data, obj){
     update_cart_total_price(total_price)
     update_discount_total_price(discount_total_price)
     update_discount(discount)
+
 
     card = obj.closest(".card")
     if (is_deleted){

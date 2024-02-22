@@ -1,13 +1,20 @@
 from django.contrib import admin
 
-from .models import Category, Product, Attribute, ProductAttrs, Article, WholesalePrice, CompanyInfo, PhoneNumber,\
-                    Packaging, UnitOfMeasurements, ImageModel
+from .models import *
+
+
 # Register your models here.
 
 
 class ProductAttrsInline(admin.TabularInline):
     model = ProductAttrs
     extra = 1
+
+
+class OrderItemInline(admin.TabularInline):
+    model = OrderItem
+    extra = 0
+    readonly_fields = ('product', 'quantity', 'price')
 
 
 class PackagingInline(admin.TabularInline):
@@ -79,6 +86,22 @@ class CategoryAdmin(admin.ModelAdmin):
     ]
 
 
+# class UserInfoInline(admin.TabularInline):
+#     model = UserInfo
+#     extra = 0
+#     readonly_fields = ('first_name', 'last_name', 'email', 'phone_number')
+#
+#     def has_add_permission(self, request, obj):
+#         return False
+
+
+class OrderAdmin(admin.ModelAdmin):
+    model = Order
+    inlines = [OrderItemInline]
+
+    readonly_fields = ["get_pk"]
+
+
 class ArticleAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ["name"]}
     save_as = True
@@ -118,7 +141,7 @@ class CompanyInfoAdmin(admin.ModelAdmin):
         (
             None,
             {
-                "fields": ["name", "email", "catalog_PDF"]
+                "fields": ["name", "email", "address", "catalog_PDF", "client_info"]
 
             }
         ),
@@ -139,7 +162,11 @@ class ImageModelAdmin(admin.ModelAdmin):
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Attribute)
+admin.site.register(UserInfo)
+admin.site.register(Order, OrderAdmin)
 admin.site.register(Article, ArticleAdmin)
 admin.site.register(CompanyInfo, CompanyInfoAdmin)
 admin.site.register(UnitOfMeasurements)
 admin.site.register(ImageModel, ImageModelAdmin)
+admin.site.register(DeliveryMethod)
+admin.site.register(PaymentMethod)

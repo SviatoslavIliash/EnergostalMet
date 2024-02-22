@@ -1,4 +1,8 @@
+from decimal import Decimal
+
 from django.contrib import admin
+from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator, MinValueValidator, MaxValueValidator
 from django.db import models
@@ -125,6 +129,85 @@ class Product(SeoFieldsModel):
         return self.name
 
 
+class UserInfo(models.Model):
+    first_name = models.CharField(max_length=250, default="", verbose_name="Ім'я")
+    last_name = models.CharField(max_length=250, default="", verbose_name="Прізвище")
+    email = models.EmailField(max_length=100)
+    phone_number = models.IntegerField(default=0, verbose_name="Телефон")
+
+    def __str__(self):
+        return (str(self.first_name) + '\n'
+                + str(self.last_name) + '\n'
+                + str(self.email) + '\n'
+                + str(self.phone_number)
+                )
+
+    class Meta:
+        verbose_name = "Клієнт"
+        verbose_name_plural = "Клієнти"
+
+
+class DeliveryMethod(models.Model):
+    name = models.CharField(max_length=200, verbose_name="Спосіб доставки")
+    enabled = models.BooleanField(default=True, verbose_name="Доступно")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Метод доставки"
+        verbose_name_plural = "Методи доставки"
+
+
+class PaymentMethod(models.Model):
+    name = models.CharField(max_length=200, verbose_name="Спосіб оплати")
+    enabled = models.BooleanField(default=True, verbose_name="Доступно")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Метод оплати"
+        verbose_name_plural = "Методи оплати"
+
+
+class Order(models.Model):
+    order_date = models.DateTimeField(auto_now=True)
+    comment = models.CharField(max_length=200, verbose_name="Коментар", blank=True, default='')
+    city = models.CharField(max_length=200, verbose_name="Місто", default='', blank=True)
+    post_department = models.CharField(max_length=200, verbose_name="Відділення або адреса", default='', blank=True)
+    delivery_method = models.ForeignKey(DeliveryMethod, on_delete=models.SET_NULL, null=True)
+    payment_method = models.ForeignKey(PaymentMethod, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(UserInfo, on_delete=models.SET_NULL, null=True, verbose_name="Клієнт")
+    order_sum = models.DecimalField(max_digits=8, decimal_places=2, default=Decimal(0), verbose_name="Сума")
+    order_discount = models.DecimalField(null=True, max_digits=8, decimal_places=2, blank=True, verbose_name="Знижка")
+    order_sum_w_discount = models.DecimalField(max_digits=8, decimal_places=2, default=Decimal(0), verbose_name="Ціна зі знижкою")
+
+    def __str__(self):
+        return " ".join(('#' + str(self.pk) + ' |', str(self.order_date.date())))
+
+    def get_pk(self):
+        return str(self.pk)
+
+    class Meta:
+        verbose_name = "Замовлення"
+        verbose_name_plural = "Замовлення"
+
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, related_name="order_items", on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, related_name="product_item", blank=False, default='', on_delete=models.CASCADE)
+    quantity = models.IntegerField(verbose_name="Кількість", default=0, blank=False)
+    price = models.DecimalField(max_digits=8, decimal_places=2, default=Decimal(0), verbose_name="Ціна")
+
+    def __str__(self):
+        return str(self.product)
+
+    class Meta:
+        verbose_name = "Позиція"
+        verbose_name_plural = "Позиції"
+
+
 class Attribute(models.Model):
     name = models.CharField(max_length=30)
 
@@ -195,11 +278,16 @@ class Article(SeoFieldsModel):
 class CompanyInfo(SeoFieldsModel):
     name = models.CharField(max_length=30, verbose_name="Назва")
     email = models.EmailField(max_length=50, verbose_name="Email")
-    catalog_PDF = models.FileField(upload_to='files/', null=True, verbose_name="Прайс")
+    address = models.CharField(max_length=100, default='', blank=True, verbose_name="Адреса")
+    catalog_PDF = models.FileField(upload_to='files/', null=True, blank=True, verbose_name="Прайс")
+    client_info = models.CharField(max_length=200, default='', blank=True, verbose_name="Інформація для клієнтів")
 
     class Meta:
         verbose_name = "Компанія"
         verbose_name_plural = "Компанії"
+
+    def is_catalog(self):
+        return self.catalog_PDF and self.catalog_PDF.storage.exists(self.catalog_PDF.name)
 
     def __str__(self):
         return self.name

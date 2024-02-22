@@ -9,9 +9,28 @@
   z-index: 600;
 }
 
+@media (max-width: 768px) {
 
-#sidebarMenu {
+  #sidebarMenu {
+    margin-top: 160px;
+  }
+
+}
+
+@media (min-width: 768px) {
+
+  #sidebarMenu {
     margin-top: 100px;
+  }
+
+}
+
+@media (max-width: 991.98px) {
+
+  .sidebar {
+    width: 100%;
+  }
+
 }
 
 @media (min-width: 991.98px) {
@@ -35,10 +54,4 @@
   overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
 }
 
-@media (max-width: 991.98px) {
 
-  .sidebar {
-    width: 100%;
-  }
-
-}

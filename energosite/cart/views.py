@@ -52,6 +52,7 @@ def cart_remove(request, product_slug):
     cart.remove(product, mult)
     response = response_prices(cart)
     response["Deleted"] = True
+    response["Empty"] = cart.is_empty()
     return JsonResponse(response)
 
 
