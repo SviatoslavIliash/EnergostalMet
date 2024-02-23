@@ -83,6 +83,8 @@ def checkout(request):
             order.post_department = d_form.cleaned_data.get("post_department")
             order.city = d_form.cleaned_data.get("city")
             order.comment = d_form.cleaned_data.get("comment")
+            order.delivery_method = d_form.cleaned_data.get("delivery_type")
+            order.payment_method = d_form.cleaned_data.get("payment_type")
 
             order.order_sum = cart.get_total_price()
             order.order_discount = discount
