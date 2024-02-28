@@ -48,8 +48,8 @@ class ImageModel(models.Model):
 
 
 class SeoFieldsModel(models.Model):
-    meta_keywords = models.CharField(max_length=100, verbose_name="Мета-тег Ключові слова", null=True, blank=True)
-    meta_description = models.CharField(max_length=250, verbose_name="Мета-тег Опис", null=True, blank=True)
+    meta_keywords = models.CharField(max_length=200, verbose_name="Мета-тег Ключові слова", null=True, blank=True)
+    meta_description = models.CharField(max_length=300, verbose_name="Мета-тег Опис", null=True, blank=True)
 
     class Meta:
         abstract = True
@@ -105,7 +105,7 @@ class Category(SeoFieldsModel):
 
 
 class Product(SeoFieldsModel):
-    name = models.CharField(max_length=30, unique=True, verbose_name="Назва")
+    name = models.CharField(max_length=50, unique=True, verbose_name="Назва")
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="Категорія")
     price = models.DecimalField(null=True, max_digits=8, decimal_places=2, blank=True, verbose_name="Ціна")
     unit_of_measurement = models.ForeignKey("UnitOfMeasurements", on_delete=models.CASCADE,
