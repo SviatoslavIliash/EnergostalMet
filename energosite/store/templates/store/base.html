@@ -120,7 +120,7 @@
         <div class="container">
           <!-- SALE-->
           <section>
-            {% if company.wholesale_prices %}
+            {% if company.wholesale_prices.all %}
               <h4 style="color: green"> АКЦІЯ!!! Купуй на суму
               {% for p in company.wholesale_prices.all %}
                 від {{p.from_sum}}
