@@ -1,8 +1,6 @@
 from decimal import Decimal
 
 from django.contrib import admin
-from django.contrib.auth.base_user import AbstractBaseUser
-from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator, MinValueValidator, MaxValueValidator
 from django.db import models
@@ -61,7 +59,7 @@ class Category(SeoFieldsModel):
     name = models.CharField(max_length=30, unique=True, verbose_name="Назва")
     parent = models.ForeignKey("self", related_name='children', null=True, blank=True, on_delete=models.CASCADE,
                                verbose_name="Батьківська категорія")
-    description = models.CharField(max_length=250, default='', blank=True, verbose_name="Опис")
+    description = models.TextField(default='', blank=True, verbose_name="Опис")
     image = models.ForeignKey(ImageModel, null=True, blank=True, on_delete=models.SET_NULL, verbose_name="Зображення")
     slug = models.SlugField(null=False, default="", unique=True)
 
@@ -115,7 +113,7 @@ class Product(SeoFieldsModel):
     packaging = models.IntegerField(blank=True, null=True, verbose_name="Пакування")
     attributes = models.ManyToManyField("Attribute", through="ProductAttrs")
     image = models.ForeignKey(ImageModel, null=True, blank=True, on_delete=models.SET_NULL, verbose_name="Зображення")
-    description = models.CharField(max_length=250, default="", blank=True, verbose_name="Опис")
+    description = models.TextField(default="", blank=True, verbose_name="Опис")
     slug = models.SlugField(null=False, default="", unique=True)
 
     class Meta:
