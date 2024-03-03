@@ -58,7 +58,16 @@
       {% endif %}
       <ul class="list-group list-group my-2">
         {% for attr in attrs %}
-          <li class="list-group-item">  <h6>{{ attr }} </h6></li>
+          <li class="list-group-item">
+            <div class="row g-0">
+              <div class="col-8">
+                <h6 class="text-start">{{ attr.attribute.name }}</h6>
+              </div>
+              <div class="col-4">
+                <h6 class="text-start">{{ attr.value }}</h6>
+              </div>
+            </div>
+          </li>
         {% endfor %}
       </ul>
     </div>
