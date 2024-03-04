@@ -277,9 +277,9 @@ class CompanyInfo(SeoFieldsModel):
     name = models.CharField(max_length=30, verbose_name="Назва")
     email = models.EmailField(max_length=50, verbose_name="Email")
     address = models.CharField(max_length=100, default='', blank=True, verbose_name="Адреса")
+    geo_data = models.CharField(max_length=200, default='', blank=True, verbose_name="Гео координати")
     catalog_PDF = models.FileField(upload_to='files/', null=True, blank=True, verbose_name="Прайс")
     client_info = models.CharField(max_length=200, default='', blank=True, verbose_name="Інформація для клієнтів")
-    geo_data = models.CharField(max_length=200, default='', blank=True, verbose_name="Гео координати")
 
     class Meta:
         verbose_name = "Компанія"
