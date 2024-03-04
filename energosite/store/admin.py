@@ -141,7 +141,7 @@ class CompanyInfoAdmin(admin.ModelAdmin):
         (
             None,
             {
-                "fields": ["name", "email", "address", "catalog_PDF", "client_info"]
+                "fields": ["name", "email", "address", "catalog_PDF", "client_info", "geo_data"]
 
             }
         ),

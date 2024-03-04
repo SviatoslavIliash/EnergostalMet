@@ -7,8 +7,7 @@
   <link rel="stylesheet" href="{% static 'cart/css/cart.css' %}">
 {% endblock %}
 {% block main_body%}
-  <div class="text-center text-bg-white" style="height:100%; min-height: 100vh; justify-content: space-between; display:flex; flex-direction: column;">
-    <div class="cover-container d-flex w-100 h-100 mx-auto flex-column">
+      <div class="cover-container d-flex w-100 h-100 mx-auto flex-column">
       <!--HEADER-->
       {% include "htmlparts/header.html" %}
       <main class="mx-auto" id="main-block">
@@ -20,6 +19,5 @@
     </div>
     <!--FOOTER-->
     {% include 'htmlparts/footer.html' %}
-  </div>
 {% endblock%}
 

@@ -4,6 +4,7 @@ body {
   justify-content: space-between;
   display: flex;
   flex-direction: column;
+  text-align: center;
 }
 
 .company-name {
