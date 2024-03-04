@@ -107,7 +107,7 @@ def checkout(request):
 
     context = {'cart': cart, 'discount_total_price': discount_total_price,
                'discount': discount, 'client_info': c_form, 'client_delivery': d_form}
-    return render(request, 'store/checkout2.html', context)
+    return render(request, 'store/checkout.html', context)
 
 
 def success_order(request, order_number):

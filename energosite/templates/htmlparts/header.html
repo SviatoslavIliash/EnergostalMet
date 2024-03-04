@@ -1,0 +1,17 @@
+{% load static %}
+<header class="mb-auto">
+{% with main_icon=True %}
+{% block topnavbar %}
+<!-- Navbar -->
+<nav id="main-navbar" class="navbar navbar-expand-lg navbar-light bg-white fixed-top py-0">
+  {% include "htmlparts/topnavbar.html" %}
+</nav>
+<nav class="navbar navbar-expand-lg navbar-light bg-white py-0" style="opacity: 0">
+  {% include "htmlparts/topnavbar.html" %}
+</nav>
+<!-- Navbar -->
+{% endblock %}
+{% endwith %}
+
+{% block sidebar %}{% endblock %}
+</header>

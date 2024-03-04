@@ -130,7 +130,7 @@ class Product(SeoFieldsModel):
 class UserInfo(models.Model):
     first_name = models.CharField(max_length=250, default="", verbose_name="Ім'я")
     last_name = models.CharField(max_length=250, default="", verbose_name="Прізвище")
-    email = models.EmailField(max_length=100)
+    email = models.EmailField(max_length=100, default='', blank=True)
     phone_number = models.CharField(max_length=20, default="", verbose_name="Телефон")
 
     def __str__(self):

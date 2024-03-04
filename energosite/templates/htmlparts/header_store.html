@@ -1,0 +1,14 @@
+{% extends "htmlparts/header.html" %}
+{% load categoriestags %}
+
+{% block sidebar %}
+<!-- Sidebar -->
+{% show_categories_tree categories %}
+<!-- Sidebar -->
+{% endblock %}
+
+{% block topnavbar %}
+  {% with collapse_button=True main_icon=False articles=True %}
+    {{ block.super }}
+  {% endwith %}
+{% endblock %}

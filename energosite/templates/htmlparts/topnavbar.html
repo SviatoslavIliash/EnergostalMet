@@ -1,0 +1,101 @@
+{% load static %}
+<!-- Container wrapper -->
+<div class="container-fluid">
+  {% if collapse_button %}
+  <button class="navbar-toggler me-1" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu"
+          aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  {% endif %}
+  <!-- Brand-->
+  <a class="navbar-brand d-md-none" href="{% url 'store:index' %}">
+    <h2 class="company-name me-1">{{company.name}}</h2>
+  </a>
+  <a class="navbar-brand" href="{% url 'store:index' %}">
+    <img src="{% static 'store/images/logo__blue.svg' %}" height="50" alt="Logo" loading="lazy" />
+  </a>
+  <a class="navbar-brand d-none d-md-inline" href="{% url 'store:index' %}">
+    <h2 class="company-name">{{company.name}}</h2>
+  </a>
+  <!-- Toggle button -->
+
+    <!-- Search form
+    <form class="d-none d-md-flex input-group w-auto my-auto">
+    <input autocomplete="off" type="search" class="form-control rounded"
+    placeholder='Search (ctrl + "/" to focus)' style="min-width: 225px;" />
+    <span class="input-group-text border-0"><i class="fas fa-search"></i></span>
+    </form>-->
+
+  <div class="ms-auto">
+    <div class="row g-0">
+      <div class="col-2 my-auto">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"/>
+        </svg>
+      </div>
+      <div class="col-10 container">
+        {% for phone_number in phone_numbers %}
+        <div>
+          <a class="d-block d-md-none" href="tel:{{ phone_number.phone_number }}">
+            <h5>{{ phone_number.phone_number }}</h5>
+          </a>
+          <h5 class="d-none d-md-block">{{ phone_number.phone_number }}</h5>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <!-- Right links -->
+  <ul class="navbar-nav ms-auto d-flex flex-row">
+    <li class="nav-item d-none d-sm-inline">
+      <a class="nav-link fw-bold py-1 px-2" href="{% url 'store:index' %}">
+        <span>Головна</span>
+      </a>
+    </li>
+    {% if main_icon %}
+    <li class="nav-item d-inline d-sm-none">
+      <a class="nav-link fw-bold py-1 px-2" href="{% url 'store:index' %}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="black" class="bi bi-house-fill" viewBox="0 0 16 16">
+          <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z"/>
+          <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293z"/>
+        </svg>
+      </a>
+    </li>
+    {% endif %}
+    {% if company.is_catalog %}
+    <li class="nav-item">
+      <a class="nav-link fw-bold py-1 px-2" href="{{ company.catalog_PDF.url }}" target="_blank">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-down d-inline d-sm-none" viewBox="0 0 16 16">
+            <path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293z"/>
+            <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+          </svg>
+          <span class="d-none d-sm-inline">Прайс</span>
+        </div>
+      </a>
+    </li>
+    {% endif %}
+    <!--Articles-->
+    {% if articles %}
+    {% for article in top_articles %}
+      <li class="nav_item d-none d-sm-inline">
+        <a class="nav-link fw-bold py-1 px-2" href="{% url 'store:article' article.slug %}">
+          <span>{{ article.name }}</span>
+        </a>
+      </li>
+    {% endfor %}
+    {% endif%}
+    <li class="nav-item">
+      <a class="nav-link fw-bold py-1 px-2" href="{% url 'cart:cart_detail' %}">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart d-inline d-sm-none" viewBox="0 0 16 16">
+            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"></path>
+          </svg>
+          <span class="d-none d-sm-inline">Кошик</span>
+          <span class="d-none d-sm-inline" id="cart_nav_total_price">{{ cart.get_discount_total_price }} грн</span>
+        </div>
+      </a>
+    </li>
+  </ul>
+</div>
+<!-- Container wrapper -->

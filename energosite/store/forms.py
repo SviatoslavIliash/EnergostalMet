@@ -9,7 +9,7 @@ class UserInfoForm(forms.Form, forms.ModelForm):
         attrs={"class": "form-control"}))
     last_name = forms.CharField(label="Прізвище", max_length=100, widget=forms.TextInput(
         attrs={"class": "form-control"}))
-    email = forms.CharField(label="Email", max_length=100, widget=forms.EmailInput(
+    email = forms.CharField(label="Email", required=False, max_length=100, widget=forms.EmailInput(
         attrs={"class": "form-control"}))
     phone_number = forms.CharField(label="Номер телефону", validators=[RegexValidator(
                 regex=r'^(\+38)?0\d{9}$', message='Введіть коректний номер телефону')], max_length=13,

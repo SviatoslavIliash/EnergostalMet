@@ -1,9 +1,9 @@
-{% extends 'store/base.html' %}
+{% extends 'store/base_store.html' %}
 
 {% block title %}{{ product.name }}{% endblock %}
 
 {% block meta %}
-  {% include 'store/meta_tags.html' with item=product %}
+  {% include 'htmlparts/meta_tags.html' with item=product %}
 {% endblock %}
 
 {% block breadcrumbs %}
@@ -51,7 +51,7 @@
         {% if product.packaging %}
             </div>
             <div class="col-4">
-              {% include 'store/packaging_buttons.html' %}
+              {% include 'htmlparts/packaging_buttons.html' %}
             </div>
           </div>
         {% endif%}

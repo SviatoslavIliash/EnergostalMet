@@ -1,8 +1,8 @@
-{% extends 'store/base.html' %}
+{% extends 'store/base_store.html' %}
 
 {% block title %}{{ category.name }}{% endblock %}
 
-{% block meta %}{% include 'store/meta_tags.html' with item=category %}{% endblock %}
+{% block meta %}{% include 'htmlparts/meta_tags.html' with item=category %}{% endblock %}
 
 {% block breadcrumbs %}
   {% for parent in category.parents %}
@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block body %}
-  {% include 'store/show_categories.html' %}
+  {% include 'htmlparts/show_categories.html' %}
   <h1>Всі товари</h1>
-  {% include 'store/show_products.html' %}
+  {% include 'htmlparts/show_products.html' %}
 {% endblock %}
