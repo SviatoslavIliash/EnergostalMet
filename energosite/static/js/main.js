@@ -1,8 +1,10 @@
 // onsubmit, onclick and oninput functions
 $(document).ready(function(){
+    const carouselElement = document.getElementById('#myCarousel')
+    if (carouselElement !== null){
+        const carousel = new bootstrap.Carousel(carouselElement)
+    }
 
-    const carousel = new bootstrap.Carousel('#myCarousel')
-    
     $(".remove_btn").on("click", (e) => {
         url = e.target.getAttribute("data-url")
         remove_from_cart(e.target, url)
