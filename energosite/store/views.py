@@ -20,7 +20,9 @@ def index(request):
     product_list = Product.objects.all()
     products_per_row = 3
     product_rows = [product_list[x:x + products_per_row] for x in range(0, len(product_list), products_per_row)]
-    context = {"category_rows": category_rows, "product_rows": product_rows, "product_list": product_list}
+    context = {"category_rows": category_rows, "product_rows": product_rows, "product_list": product_list,
+               "categories": super_category_list}
+
     return render(request, "store/index.html", context)
 
 
