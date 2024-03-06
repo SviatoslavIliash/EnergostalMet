@@ -1,33 +1,21 @@
 <section class="small-screen-view" style="background-color: #eee;">
-  <div class="container">
+  <div class="container ">
     <div id="myCarousel" class="carousel carousel-dark slide">
-      <div class="carousel-inner">
+      <div class="carousel-inner py-1">
         {% for category in categories %}
         {% if forloop.first %}
         <div class="carousel-item active">
-          <div class="my-10 d-flex align-items-stretch">
-            <div class="card w-100">
-              <a class="a-custom" href="{% url 'store:category_detail' category.slug %}">
-                <img src="{{ category.get_image}}"
-                     class="card-img-top mx-auto" alt="{{category.name}}" style="height:250px; object-fit: contain;"/>
-              <div class="card-body" ><span class="card-text fw-bold">{{ category.name }}</span></div>
-              </a>
-            </div>
-          </div>
-        </div>
         {% else %}
         <div class="carousel-item">
-          <div class="my-10 d-flex align-items-stretch">
-            <div class="card w-100">
-              <a class="a-custom" href="{% url 'store:category_detail' category.slug %}">
-                <img src="{{ category.get_image}}"
-                     class="card-img-top mx-auto" alt="{{category.name}}" style="height:250px; object-fit: contain;"/>
-              <div class="card-body" ><span class="card-text fw-bold">{{ category.name }}</span></div>
-              </a>
-            </div>
+        {% endif %}
+          <div class="card w-100">
+            <a class="a-custom" href="{% url 'store:category_detail' category.slug %}">
+              <img src="{{ category.get_image}}"
+                   class="card-img-top mx-auto" alt="{{category.name}}" style="height:250px; object-fit: contain;"/>
+            <div class="card-body" ><span class="card-text fw-bold">{{ category.name }}</span></div>
+            </a>
           </div>
         </div>
-        {% endif %}
         {% endfor %}
       </div>
 
