@@ -11,7 +11,7 @@
           <div class="card w-100">
             <a class="a-custom" href="{% url 'store:category_detail' category.slug %}">
               <img src="{{ category.get_image}}"
-                   class="card-img-top mx-auto" alt="{{category.name}}" style="height:250px; object-fit: contain;"/>
+                   class="card-img-top mx-auto" alt="{{category.name}}" style="height:150px; object-fit: contain;"/>
             <div class="card-body" ><span class="card-text fw-bold">{{ category.name }}</span></div>
             </a>
           </div>
