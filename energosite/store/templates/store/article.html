@@ -10,9 +10,21 @@
   &rsaquo; <a href="{% url 'store:article' current_article.slug %}">{{ current_article.name }}</a>
 {% endblock %}
 
+
 {% block body %}
+
+<script>
+  $(document).ready(function(){
+    articleContent = document.getElementById("article-content")
+    text = articleContent.getAttribute("data-text")
+    if(text){
+      $("#article-content").html(text);
+    }
+  });
+</script>
+
 <div class="container">
   <p>{{ current_article.name }}</p>
-  <p>{{ current_article.text }}</p>
+  <p id="article-content" class="text-start" data-text="{{current_article.text}}" style="white-space: pre-wrap;"></p>
 </div>
 {% endblock %}
