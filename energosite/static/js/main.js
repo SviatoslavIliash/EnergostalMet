@@ -1,6 +1,6 @@
 // onsubmit, onclick and oninput functions
 $(document).ready(function(){
-    const carouselElement = document.getElementById('#myCarousel')
+    const carouselElement = document.getElementById('myCarousel')
     if (carouselElement !== null){
         const carousel = new bootstrap.Carousel(carouselElement)
     }
