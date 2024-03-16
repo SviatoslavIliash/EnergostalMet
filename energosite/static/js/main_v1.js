@@ -6,8 +6,9 @@ $(document).ready(function(){
     }
 
     $(".remove_btn").on("click", (e) => {
-        url = e.target.getAttribute("data-url")
-        remove_from_cart(e.target, url)
+        let svg_element = e.target.closest("svg")
+        url = svg_element.getAttribute("data-url")
+        remove_from_cart(svg_element, url)
     });
 
     $(".cart_add_form").on('submit', (e) => {
@@ -78,7 +79,6 @@ function update_in_cart(form){
     const form_data = $(form).serialize()
     multiplier = form.getAttribute("data-pack")
     let data_to_send = form_data + "&multiplier=" + multiplier
-    console.log(data_to_send)
     $.post(url, data_to_send, function(data){
         update_cart(data, form)
     })
