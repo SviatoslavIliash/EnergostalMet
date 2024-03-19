@@ -1,4 +1,5 @@
 from django.core.mail import send_mail
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, redirect, get_object_or_404
 from django.conf import settings
 
@@ -20,8 +21,20 @@ def index(request):
     product_list = Product.objects.all()
     products_per_row = 3
     product_rows = [product_list[x:x + products_per_row] for x in range(0, len(product_list), products_per_row)]
+    '''pagination'''
+    paginator = Paginator(product_rows, 1)  # number of rows of products!!!
+    page_number = request.GET.get("page")
+    try:
+        page_obj = paginator.get_page(page_number)  # returns the desired page object
+    except PageNotAnInteger:
+        # if page_number is not an integer then assign the first page
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        # if page is empty then return last page
+        page_obj = paginator.page(paginator.num_pages)
+
     context = {"category_rows": category_rows, "product_rows": product_rows, "product_list": product_list,
-               "categories": super_category_list}
+               "categories": super_category_list, "page_obj": page_obj}
 
     return render(request, "store/index.html", context)
 

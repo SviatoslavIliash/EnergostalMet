@@ -8,15 +8,17 @@
   </button>
   {% endif %}
   <!-- Brand-->
-  <a class="navbar-brand d-md-none" href="{% url 'store:index' %}">
-    <h2 class="company-name me-1">{{company.name}}</h2>
+  <a class="navbar-brand d-md-none" href="{% url 'store:index' %}"> <!--For small devices-->
+    <h2 class="company-name me-1">{{company.name}}</h2>             <!--For small devices-->
   </a>
+  <img class="navbar-brand d-md-none" src="{% static 'store/images/made_in_ukr.png' %}" height="50" alt="made_ukr" loading="lazy" /> <!--For small devices-->
   <a class="navbar-brand" href="{% url 'store:index' %}">
     <img src="{% static 'store/images/logo__blue.svg' %}" height="50" alt="Logo" loading="lazy" />
   </a>
-  <a class="navbar-brand d-none d-md-inline" href="{% url 'store:index' %}">
-    <h2 class="company-name">{{company.name}}</h2>
+  <a class="navbar-brand d-none d-md-inline" href="{% url 'store:index' %}"> <!--For large devices-->
+    <h2 class="company-name">{{company.name}}</h2>                           <!--For large devices-->
   </a>
+  <img class="navbar-brand d-none d-md-inline" src="{% static 'store/images/made_in_ukr.png' %}" height="50" alt="made_ukr" loading="lazy" /> <!--For large devices-->
   <!-- Toggle button -->
 
     <!-- Search form

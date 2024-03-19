@@ -1,0 +1,63 @@
+<section style="background-color: #eee;">
+  <div class="container">
+    {% for product_row in page_obj.object_list%}
+      <div class="row">
+        {% for product in product_row %}
+          <div class="col-12 col-lg-4 my-1 d-flex align-items-stretch">
+            <div class="card w-100">
+            <a href="{% url 'store:product_detail' product.category.slug product.slug %}">
+              <img src="{{ product.get_image }}"
+                   class="card-img-top mx-auto" alt="{{product.name}}" style="height: 250px; object-fit:contain"/>
+            </a>
+              <div class="card-body">
+                <a class="a-custom" href="{% url 'store:product_detail' product.category.slug product.slug %}">
+                  <div class="row g-0">
+                    <div class="col">
+                      <span class="card-text fw-bold ms-1">{{ product.name }}</span>
+                    </div>
+                  </div>
+                </a>
+                <hr class="hr" />
+                {% if not product.price %}
+                  <h5><span class="badge bg-success">під замовлення</span></h5>
+                {% else %}
+                  <div class="row g-0">
+                    {% if product.packaging %}
+                      <div class="col">
+                        {% include 'htmlparts/packaging_buttons.html' %}
+                      </div>
+                    {% endif %}
+                    <div class="col">
+                      <span class="card-text fw-bold mx-auto" id="product_price_{{product.slug}}">
+                        {{ product.price }} грн/{{product.unit_of_measurement}}
+                      </span>
+                      <form id="add_to_cart_form_{{product.slug}}" class="cart_add_form mx-auto" data-slug="{{product.slug}}"
+                            action="{% url 'cart:cart_add' product.slug %}" method="post">
+                        {% csrf_token %}
+                        <input class="mt-1 btn btn-primary btn-sm" type="submit" value="Додати в кошик">
+                      </form>
+                    </div>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+       {% endfor %}
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<div class="pagination" style="justify-content: center;">
+  <span class="step-links">
+  {% if page_obj.has_previous %}
+    <a href="?page=1">&laquo; перша</a>
+    <a href="?page={{ page_obj.previous_page_number }}">попередня</a>
+  {% endif %}
+    <span class="current">Сторінка {{ page_obj.number }} з {{ page_obj.paginator.num_pages }}.</span>
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}">наступна</a>
+    <a href="?page={{ page_obj.paginator.num_pages }}">остання &raquo;</a>
+    {% endif %}
+  </span>
+</div>
