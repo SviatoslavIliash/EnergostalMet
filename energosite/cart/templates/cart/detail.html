@@ -12,7 +12,7 @@
 <h1>Ваш кошик товарів</h1>
 {% for item in cart %}
 {% with product=item.product %}
-<div class="card" style="max-height:202px">
+<div class="card card-hover" style="max-height:202px">
   <div class="row g-0 align-items-center">
     <div class="col-sm-4 col-3">
       <a href="{% url 'store:product_detail' product.category.slug product.slug %}">

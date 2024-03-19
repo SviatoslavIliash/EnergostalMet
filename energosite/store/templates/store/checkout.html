@@ -10,12 +10,12 @@
 <div class="row">
 <!--Cart-->
   <div class="col-12 col-sm-6 overflow-auto" style="max-height:500px">
-    <div class="card mb-1"  >
+    <div class="card mb-1" >
       <div class="card-body " style="text-align: center;">
         <h3>Кошик</h3>
         {% for item in cart %}
         {% with product=item.product %}
-        <div class="card border-0" >
+        <div class="card card-hover border-0" >
         <div class="row">
           <div class="col-sm-6 col-12">
             <a href="{% url 'store:product_detail' product.category.slug product.slug %}" target="_blank">
@@ -70,7 +70,7 @@
     </div>
 <!--Personal data-->
     <div class="col-12 col-sm-6">
-    <div class="card mb-1" >
+    <div class="card card-hover mb-1" >
       <div class="card-body">
           <h4>Особисті дані</h4>
 
