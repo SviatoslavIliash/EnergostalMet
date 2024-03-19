@@ -22,7 +22,7 @@ def index(request):
     products_per_row = 3
     product_rows = [product_list[x:x + products_per_row] for x in range(0, len(product_list), products_per_row)]
     '''pagination'''
-    paginator = Paginator(product_rows, 1)  # number of rows of products!!!
+    paginator = Paginator(product_rows, 7)  # number of rows of products!!!
     page_number = request.GET.get("page")
     try:
         page_obj = paginator.get_page(page_number)  # returns the desired page object
