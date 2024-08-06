@@ -77,6 +77,8 @@ def product_detail(request, category_slug, product_slug):
 
 def checkout(request):
     cart = Cart(request)
+    if not cart:
+        return redirect('store:index')
     for item in cart:
         item['update_quantity_form'] = CartAddProductForm(
             initial={
