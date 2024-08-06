@@ -14,7 +14,7 @@ class ProductAttrsInline(admin.TabularInline):
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
     extra = 0
-    readonly_fields = ('product', 'quantity', 'price')
+    readonly_fields = ('product', 'packaging', 'quantity', 'price', 'get_total_price')
 
 
 class PackagingInline(admin.TabularInline):

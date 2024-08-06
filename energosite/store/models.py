@@ -196,10 +196,15 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name="order_items", on_delete=models.CASCADE)
     product = models.ForeignKey(Product, related_name="product_item", blank=False, default='', on_delete=models.CASCADE)
     quantity = models.IntegerField(verbose_name="Кількість", default=0, blank=False)
-    price = models.DecimalField(max_digits=8, decimal_places=2, default=Decimal(0), verbose_name="Ціна")
+    price = models.DecimalField(max_digits=15, decimal_places=2, default=Decimal(0), verbose_name="Ціна за одиницю")
+    packaging = models.CharField(max_length=100, default="", verbose_name="Пакування")
 
     def __str__(self):
         return str(self.product)
+
+    @admin.display(description="Ціна")
+    def get_total_price(self):
+        return self.price * self.quantity
 
     class Meta:
         verbose_name = "Позиція"
