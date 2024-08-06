@@ -68,7 +68,7 @@ def send_email(order, order_items):
 def email_message(order, order_items):
     message = f"<h3>Дякуємо за замовлення!</h3>" \
               f"<hr>" \
-              f"<b>Товари в замовленні № {order.pk}</b><br>" \
+              f"<b>Товари в замовленні № {order.pk}</b><br><br>" \
               f"<table style=\"border:1px solid #dddddd; border-collapse: collapse; width: 100%;\">" \
               f"<tr>" \
               f"<th style=\"border:1px solid #dddddd;\">Назва</th>" \
@@ -91,7 +91,7 @@ def email_message(order, order_items):
     message += f"<b>Сума замовлення:</b> {order.order_sum} грн<br>"
     if order.order_discount != 0:
         message += f"Знижка: {order.order_discount} грн<br>"
-    message += f"<b><span style=\"font-size: 130%;\">ДО СПЛАТИ:{order.order_sum_w_discount} грн</span></b> <br>"
+    message += f"<b><span style=\"font-size: 130%;\">ДО СПЛАТИ: {order.order_sum_w_discount} грн</span></b> <br>"
 
     message += "<hr>"
     message += f"<b>Покупець:</b> {order.user.first_name} {order.user.last_name}<br>"
