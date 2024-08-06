@@ -9,7 +9,7 @@ urlpatterns = [
     path("", views.index, name="index"),
     re_path("favicon.ico", RedirectView.as_view(url=static('store/images/logo__blue.ico'), permanent=True)),
     path("checkout/", views.checkout, name="checkout"),
-    path("success_order/<int:order_number>", views.success_order, name="success_order"),
+    path("success_order/", views.success_order, name="success_order"),
     path("<slug:category_slug>/", views.category_detail, name="category_detail"),
     # maybe should be moved to separate app like articles. should be discussed.
     path("article/<slug:article_slug>/", views.article, name="article"),

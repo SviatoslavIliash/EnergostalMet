@@ -10,7 +10,7 @@ from .utils import send_email
 
 
 categories_per_row = 3
-
+SESSION_ORDER = "Order"
 
 def index(request):
     super_category_list = Category.objects.filter(parent=None)
@@ -121,14 +121,21 @@ def checkout(request):
             send_telegram(order, order_items)
             send_email(order, order_items)
             cart.clear()
-            # TODO add email sending & maybe telegram message sending
-            return redirect('store:success_order', order_number=order.pk)
+
+            request.session[SESSION_ORDER] = order.pk
+            return redirect('store:success_order')
 
     context = {'cart': cart, 'discount_total_price': discount_total_price,
                'discount': discount, 'client_info': c_form, 'client_delivery': d_form}
     return render(request, 'store/checkout.html', context)
 
 
-def success_order(request, order_number):
-    context = {'order_number': order_number}
-    return render(request, 'store/order_confirm.html', context)
+def success_order(request):
+    order_number = request.session.get(SESSION_ORDER)
+    if order_number:
+        context = {'order_number': order_number}
+        del request.session[SESSION_ORDER]
+        request.session.modified = True
+        return render(request, 'store/order_confirm.html', context)
+    else:
+        return redirect('store:index')
