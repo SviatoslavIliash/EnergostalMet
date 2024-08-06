@@ -6,6 +6,7 @@ from .forms import UserInfoForm, DeliveryForm
 from .models import Category, Product, ProductAttrs, Article, OrderItem, Order
 from cart.forms import CartAddProductForm
 from .utils import send_telegram
+from .utils import send_email
 
 
 categories_per_row = 3
@@ -118,7 +119,7 @@ def checkout(request):
                 order_items.append(o_item)
 
             send_telegram(order, order_items)
-            # email(request)
+            send_email(order, order_items)
             cart.clear()
             # TODO add email sending & maybe telegram message sending
             return redirect('store:success_order', order_number=order.pk)
